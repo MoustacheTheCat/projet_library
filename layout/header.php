@@ -23,6 +23,7 @@
                 <div class="nav-menu">
                     <ul>
                         <li><a href="../pages/add.php">Add a book</a></li>
+                        <li><a href="../pages/edit_library.php">Edit books lists</a></li>
                     </ul>
                 </div>
             </div>

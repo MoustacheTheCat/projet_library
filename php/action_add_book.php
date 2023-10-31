@@ -1,8 +1,15 @@
 <?php
 require('config.php');
 require('request.php');
+$arrayCats = array();
+$categorys = getAllData($db, 'categorys');
+foreach($categorys as $category){
+    if(isset($_POST['categoryName__'.$category['categoryName']]) && $_POST['categoryName__'.$category['categoryName']] == $category['categoryName']){
+        $arrayCats[] = $category['categoryName'];
+    }
+}
 if(isset($_POST['add_book'])){
-    if (!empty($_POST['bookName']) && !empty($_POST['bookDate']) && !empty($_POST['authorFirstName']) && !empty($_POST['authorLastName']) &&( !empty($_POST['categoryName']) || !empty($_POST['addCategoryName']))  && !empty($_POST['bookDescription'])) {
+    if (!empty($_POST['bookName']) && !empty($_POST['bookDate']) && !empty($_POST['authorFirstName']) && !empty($_POST['authorLastName']) &&( !empty($arrayCats) || !empty($_POST['addCategoryName']))  && !empty($_POST['bookDescription'])) {
         $authors = getAllData($db, 'authors');
         $vrfAuth = verifAuthor($authors, $_POST['authorFirstName'], $_POST['authorLastName']);
         if($vrfAuth == false){
@@ -32,23 +39,10 @@ if(isset($_POST['add_book'])){
             $dataC = $db->prepare("INSERT INTO books_categorys (book_id, category_id) VALUES (:book_id, :category_id)");
             $dataC->execute(array(':book_id' => $book_id, ':category_id' => $id_cat));
         }
-        if (!empty($_POST['categoryName'])){
-            echo 'test2';
-            if (count($_POST['categoryName']) > 1){
-                $tabCats = $_POST['categoryName'];
-                foreach($tabCats as $tabCat){
-                    foreach($categorys as $category){
-                        if ($category['categoryName'] == $tabCat){
-                            $id_cat = $category['category_id'];
-                            $dataC = $db->prepare("INSERT INTO books_categorys (book_id, category_id) VALUES (:book_id, :category_id)");
-                            $dataC->execute(array(':book_id' => $book_id, ':category_id' => $id_cat));
-                        }
-                    }
-                }
-            }else {
-                $nameCat = $_POST['categoryName'][0];
+        if (!empty($arrayCats)){
+            foreach($arrayCats as $arrayCat){
                 foreach($categorys as $category){
-                    if ($category['categoryName'] == $nameCat){
+                    if ($category['categoryName'] == $arrayCat){
                         $id_cat = $category['category_id'];
                         $dataC = $db->prepare("INSERT INTO books_categorys (book_id, category_id) VALUES (:book_id, :category_id)");
                         $dataC->execute(array(':book_id' => $book_id, ':category_id' => $id_cat));
