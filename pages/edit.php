@@ -24,12 +24,37 @@ print_r($book['categoryName']);
         <label for="authorFirstName">Author last Name :</label>
         <input type="text" name="authorLastName" id="authorLastName" max="100" placeholder="<?php echo $book['authorLastName'];?>">
         <h2>Categorys :</h2>
-        <?php foreach($categorys as $category) :?>
-            <?php if($category['categoryName'] == $book['categoryName']): ?>
-                <input type="checkbox" name="categoryName" id="categoryName" value="<?php echo $category['categoryName']; ?>" checked>
-            <?php endif; ?>
-            <label for="categoryName"><?php echo $category['categoryName']; ?></label>
-        <?php endforeach; ?> 
+        <?php if(count($data) === 1) : ?>
+            <?php foreach($categorys as $category) :?>
+                <label for="categoryName"><?php echo $category['categoryName']; ?></label>
+                <?php if($category['categoryName'] == $book['categoryName']): ?>
+                    <input type="checkbox" name="categoryName" id="categoryName" value="<?php echo $category['categoryName']; ?>" checked>
+                <?php else: ?>
+                    <input type="checkbox" name="categoryName" id="categoryName" value="<?php echo $category['categoryName']; ?>">
+                <?php endif; ?> 
+            <?php endforeach; ?> 
+        <?php else: ?>
+            <?php 
+                $nbCat = count($data); 
+                $arrayCat = array();
+                foreach($categorys as $category) {
+                    for ($i = 0; $i < $nbCat; $i++) {
+                        if($data[$i]['categoryName'] == $category['categoryName']){
+                            $arrayCat[] = $data[$i]['categoryName'];
+                        }
+
+                    }
+                }
+            ?>
+            <?php foreach($categorys as $category)  :?>
+                <label for="categoryName"><?php echo $category['categoryName']; ?></label>
+                <?php if(in_array($category['categoryName'], $arrayCat)): ?>
+                    <input type="checkbox" name="categoryName" id="categoryName" value="<?php echo $category['categoryName']; ?>" checked>
+                <?php else: ?>
+                    <input type="checkbox" name="categoryName" id="categoryName" value="<?php echo $category['categoryName']; ?>">
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
         <label for="bookDescription">Book Description</label>
         <textarea name="bookDescription" id="bookDescription" cols="30" rows="10" placeholder="<?php echo $book['bookDescription'];?>"></textarea>
         <input type="submit" value="Edit a book" name="update_book">
