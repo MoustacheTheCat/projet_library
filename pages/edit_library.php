@@ -4,7 +4,7 @@
 require('../php/config.php');
 require('../php/request.php');
 $pageTitle = 'Edit Books in Library';
-$listBooks = getAllBookAndAuthorName($db, 'bookName', 'authorFirstName', 'authorLastName', 'books', 'authors');
+$listBooks = getAllBookAndAuthorName($db, 'bookName', 'authFirstName', 'authLastName', 'books', 'authors');
 
 include('../layout/header.php');
 ?>

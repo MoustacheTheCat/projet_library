@@ -8,22 +8,21 @@ $pageTitle = 'Edit '. $pageName;
 include('../layout/header.php');
 $categorys = getAllData($db, 'categorys');
 
-$datas = $db->prepare("SELECT books.*, categorys.categoryName  , authors.authorFirstName, authors.authorLastName FROM books_categorys JOIN books ON books_categorys.book_id = books.book_id  JOIN  authors ON books.author_id = authors.author_id JOIN categorys ON books_categorys.category_id = categorys.category_id WHERE books.bookName = :bookName");
+$datas = $db->prepare("SELECT books.*, categorys.categoryName  , authors.authFirstName, authors.authLastName FROM books_categorys JOIN books ON books_categorys.book_id = books.book_id  JOIN  authors ON books.auth_id = authors.auth_id JOIN categorys ON books_categorys.category_id = categorys.category_id WHERE books.bookName = :bookName");
 $datas->execute(array(':bookName' => $pageName));
 $data = $datas->fetchAll();
 $book = $data[0];
-var_dump(count($data));
 ?>
 <div class="edit-book">
     <form action="../php/action_update_book.php?name=<?php echo $_GET['name'];?>" method="POST">
         <label for="bookName">Book Name:</label>
         <input type="text" name="bookName" max="100" placeholder="<?php echo $pageName;?>">
         <label for="bookDate">Year of publication:</label>
-        <input type="number" name="bookDate" min="0" max="2023" placeholder="<?php echo $book['bookDate'];?>">
-        <label for="authorFirstName">Author First Name :</label>
-        <input type="text" name="authorFirstName" id="authorFirstName" max="100" placeholder="<?php echo $book['authorFirstName'];?>">
-        <label for="authorFirstName">Author last Name :</label>
-        <input type="text" name="authorLastName" id="authorLastName" max="100" placeholder="<?php echo $book['authorLastName'];?>">
+        <input type="date" name="bookDate" min="0" max="2023" placeholder="<?php echo $book['bookDate'];?>">
+        <label for="authFirstName">Author First Name :</label>
+        <input type="text" name="authFirstName" id="authFirstName" max="100" placeholder="<?php echo $book['authFirstName'];?>">
+        <label for="authFirstName">Author last Name :</label>
+        <input type="text" name="authLastName" id="authLastName" max="100" placeholder="<?php echo $book['authLastName'];?>">
         <h2>Categorys :</h2>
         <?php if(count($data) > 1) : ?>
             <?php 

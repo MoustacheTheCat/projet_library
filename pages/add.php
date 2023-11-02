@@ -13,11 +13,11 @@ $categorys = getAllData($db, 'categorys');
         <label for="bookName">Book Name:</label>
         <input type="text" name="bookName" max="100">
         <label for="bookDate">Year of publication:</label>
-        <input type="number" name="bookDate" min="0" max="2023">
-        <label for="authorFirstName">Author First Name :</label>
-        <input type="text" name="authorFirstName" id="authorFirstName" max="100">
-        <label for="authorFirstName">Author last Name :</label>
-        <input type="text" name="authorLastName" id="authorLastName" max="100">
+        <input type="date" name="bookDate" min="0" max="2023">
+        <label for="authFirstName">Author First Name :</label>
+        <input type="text" name="authFirstName" id="authFirstName" max="100">
+        <label for="authFirstName">Author last Name :</label>
+        <input type="text" name="authLastName" id="authLastName" max="100">
         <h2>Categorys :</h2>
         <?php foreach($categorys as $category) :?>
             <input type="checkbox" name="categoryName_.<?php echo $category['categoryName']; ?>" id="categoryName" value="<?php echo $category['categoryName']; ?>">

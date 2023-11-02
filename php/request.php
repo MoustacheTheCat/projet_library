@@ -10,7 +10,7 @@ function getAllData($db, $table_name){
 }
 
 function getAllBookAndAuthorName($db, $colNB, $colFNA, $colLNA, $tB, $tA){
-    $data = $db->prepare("SELECT $colNB, $colFNA, $colLNA FROM $tB INNER JOIN $tA ON $tB.author_id = $tA.author_id"); 
+    $data = $db->prepare("SELECT $colNB, $colFNA, $colLNA FROM $tB INNER JOIN $tA ON $tB.auth_id = $tA.auth_id"); 
     $data->execute();
     $names = $data->fetchAll(); 
     return $names;
@@ -28,14 +28,14 @@ function getOneData($db, $table_name, $name_column ,$id){
 }
 
 function getOneBookAndAuthorName($db, $bA, $colFNA, $colLNA, $tB, $tA, $name_column ,$id){
-    $data = $db->prepare("SELECT $bA.*, $colFNA, $colLNA FROM $tB INNER JOIN $tA ON $tB.author_id = $tA.author_id WHERE $name_column= :$name_column"); 
+    $data = $db->prepare("SELECT $bA.*, $colFNA, $colLNA FROM $tB INNER JOIN $tA ON $tB.auth_id = $tA.auth_id WHERE $name_column= :$name_column"); 
     $data->execute(array(':'.$name_column => $id));
     $name = $data->fetchAll(); 
     return $name;
 }
 
 function getOneBookAndAllDetail($db ,$tBC, $tB, $tA, $tC, $id){
-    $data = $db->prepare("SELECT $tB.*, 'categoryName' , 'authorFirstName','authorLastName' FROM $tBC JOIN $tB ON $tBC.book_id = $tB.book_id JOIN $tA ON $tB.author_id = $tA.author_id JOIN $tC ON $tBC.category_id = $tC.category_id WHERE $tB.bookName = :bookName");
+    $data = $db->prepare("SELECT $tB.*, 'categoryName' , 'authFirstName','authLastName' FROM $tBC JOIN $tB ON $tBC.book_id = $tB.book_id JOIN $tA ON $tB.auth_id = $tA.auth_id JOIN $tC ON $tBC.category_id = $tC.category_id WHERE $tB.bookName = :bookName");
     $data->execute(array(':bookName' => $id));
     $name = $data->fetchAll(); 
     return $name;   
@@ -49,10 +49,10 @@ function getOneBookAndAllDetail($db ,$tBC, $tB, $tA, $tC, $id){
 
 //VErif author 
 
-function verifAuthor($authors, $authorFirstName, $authorLastName){
+function verifAuthor($authors, $authFirstName, $authLastName){
     foreach($authors as $author){
-        if($author['authorFirstName'] == $authorFirstName && $author['authorLastName'] == $authorLastName){
-            return $author['author_id'];
+        if($author['authFirstName'] == $authFirstName && $author['authLastName'] == $authLastName){
+            return $author['auth_id'];
         }
     }
     return false;
@@ -61,7 +61,7 @@ function verifAuthor($authors, $authorFirstName, $authorLastName){
 function verifBook($books, $bookName, $author, $bookDate){
     foreach($books as $book){
 
-        if($book['bookName'] == $bookName && $book['author_id'] == $author && $book['bookDate'] == $bookDate){
+        if($book['bookName'] == $bookName && $book['auth_id'] == $author && $book['bookDate'] == $bookDate){
             return true;
         }
         return false;

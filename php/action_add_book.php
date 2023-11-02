@@ -9,25 +9,25 @@ foreach($categorys as $category){
     }
 }
 if(isset($_POST['add_book'])){
-    if (!empty($_POST['bookName']) && !empty($_POST['bookDate']) && !empty($_POST['authorFirstName']) && !empty($_POST['authorLastName']) &&( !empty($arrayCats) || !empty($_POST['addCategoryName']))  && !empty($_POST['bookDescription'])) {
+    if (!empty($_POST['bookName']) && !empty($_POST['bookDate']) && !empty($_POST['authFirstName']) && !empty($_POST['authLastName']) &&( !empty($arrayCats) || !empty($_POST['addCategoryName']))  && !empty($_POST['bookDescription'])) {
         $authors = getAllData($db, 'authors');
-        $vrfAuth = verifAuthor($authors, $_POST['authorFirstName'], $_POST['authorLastName']);
+        $vrfAuth = verifAuthor($authors, $_POST['authFirstName'], $_POST['authLastName']);
         if($vrfAuth == false){
-            $dataA = $db->prepare("INSERT INTO authors (authorFirstName, authorLastName) VALUES (:authorFirstName, :authorLastName)");
-            $dataA->bindValue(':authorFirstName', $_POST['authorFirstName'], PDO::PARAM_STR);
-            $dataA->bindValue(':authorLastName',  $_POST['authorLastName'], PDO::PARAM_STR);
+            $dataA = $db->prepare("INSERT INTO authors (authFirstName, authLastName) VALUES (:authFirstName, :authLastName)");
+            $dataA->bindValue(':authFirstName', $_POST['authFirstName'], PDO::PARAM_STR);
+            $dataA->bindValue(':authLastName',  $_POST['authLastName'], PDO::PARAM_STR);
             $dataA->execute();
-            $author_id = $db->lastInsertId();
+            $auth_id = $db->lastInsertId();
         }
         else{
-            $author_id = $vrfAuth;
+            $auth_id = $vrfAuth;
         }
         $books = getAllData($db, 'books');
-        if(verifBook ($books, $_POST['bookName'],$author_id, $_POST['bookDate'])){
+        if(verifBook ($books, $_POST['bookName'],$auth_id, $_POST['bookDate'])){
             echo 'Le livre existe déjà';
         }else {
-            $dataB = $db->prepare("INSERT INTO books (bookName, bookDate, author_id, bookDescription) VALUES (:bookName, :bookDate, :author_id, :bookDescription)");
-            $dataB->execute(array(':bookName' => $_POST['bookName'], ':bookDate' => $_POST['bookDate'], ':author_id' => $author_id, ':bookDescription' => $_POST['bookDescription']));
+            $dataB = $db->prepare("INSERT INTO books (bookName, bookDate, auth_id, bookDescription) VALUES (:bookName, :bookDate, :auth_id, :bookDescription)");
+            $dataB->execute(array(':bookName' => $_POST['bookName'], ':bookDate' => $_POST['bookDate'], ':auth_id' => $auth_id, ':bookDescription' => $_POST['bookDescription']));
             $book_id = $db->lastInsertId();
         }
         $categorys = getAllData($db, 'categorys');

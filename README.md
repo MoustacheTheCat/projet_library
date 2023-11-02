@@ -12,42 +12,48 @@ step 1 -> Create BDD and User mysql
     USE library;
 
     CREATE TABLE authors (
-        author_id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-        authorFirstName varchar(100) DEFAULT NULL,
+        auth_id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+        authFirstName varchar(100) NULL,
+        authLastName varchar(100) NULL,
+        authNatonality varchar(100),
         createdAt timestamp NOT NULL DEFAULT current_timestamp(),
         updatedAt timestamp NOT NULL DEFAULT current_timestamp(),
-        authorLastName varchar(100) DEFAULT NULL
+        
     );
 
     CREATE TABLE books (
         book_id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-        bookName varchar(100) DEFAULT NULL,
-        author_id int(11) DEFAULT NULL,
-        createdAt timestamp NOT NULL DEFAULT current_timestamp(),
-        updatedAt timestamp NOT NULL DEFAULT current_timestamp(),
-        bookDate varchar(4) DEFAULT NULL,
-        bookDescription text DEFAULT NULL
-    );
-
-    CREATE TABLE books_categorys (
-        book_id int(11) DEFAULT NULL,
-        category_id int(11) DEFAULT NULL,
+        bookName varchar(100),
+        auth_id int(11),
+        bookDate date,
+        bookPrice int(11)
+        bookDescription text,
         createdAt timestamp NOT NULL DEFAULT current_timestamp(),
         updatedAt timestamp NOT NULL DEFAULT current_timestamp()
+        
     );
 
     CREATE TABLE categorys (
         category_id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-        categoryName varchar(100) DEFAULT NULL,
+        categoryName varchar(100),
         createdAt timestamp NOT NULL DEFAULT current_timestamp(),
         updatedAt timestamp NOT NULL DEFAULT current_timestamp()
     );
 
-    ALTER TABLE books ADD CONSTRAINT  FK_authors  FOREIGN KEY (author_id) REFERENCES authors (author_id);
+    CREATE TABLE books_categorys (
+        book_id int(11),
+        category_id int(11),
+        createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+        updatedAt timestamp NOT NULL DEFAULT current_timestamp()
+    );
 
-    ALTER TABLE books_categorys ADD CONSTRAINT FK_books_categorie FOREIGN KEY (book_id) REFERENCES books (book_id) ON DELETE CASCADE ON UPDATE CASCADE;
+    
 
-    ALTER TABLE books_categorys ADD CONSTRAINT books_categorys_FK FOREIGN KEY (category_id) REFERENCES categorys (category_id) ON DELETE CASCADE ON UPDATE CASCADE;
+    ALTER TABLE books ADD CONSTRAINT  auth_FK  FOREIGN KEY (auth_id) REFERENCES authors (auth_id);
+
+    ALTER TABLE books_categorys ADD CONSTRAINT book_id_category_id_FK FOREIGN KEY (book_id) REFERENCES books (book_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+    ALTER TABLE books_categorys ADD CONSTRAINT category_id_book_id_FK FOREIGN KEY (category_id) REFERENCES categorys (category_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 step 2 -> Create php/config.php  and php/request.php
 
@@ -62,4 +68,5 @@ step 6 -> create php/delete_book.php
 step 7 -> create pages/edit.php and action_update_book.php
 
 // step 8 -> add filter 
+
 

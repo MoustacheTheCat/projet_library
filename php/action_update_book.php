@@ -5,11 +5,11 @@ require('request.php');
 $bookN = $_GET['name'];
 $categorys = getAllData($db, 'categorys');
 $authors = getAllData($db, 'authors');
-$datas = $db->prepare("SELECT books.*, categorys.categoryName  , authors.authorFirstName, authors.authorLastName FROM books_categorys JOIN books ON books_categorys.book_id = books.book_id  JOIN  authors ON books.author_id = authors.author_id JOIN categorys ON books_categorys.category_id = categorys.category_id WHERE books.bookName = :bookName");
+$datas = $db->prepare("SELECT books.*, categorys.categoryName  , authors.authFirstName, authors.authLastName FROM books_categorys JOIN books ON books_categorys.book_id = books.book_id  JOIN  authors ON books.auth_id = authors.auth_id JOIN categorys ON books_categorys.category_id = categorys.category_id WHERE books.bookName = :bookName");
 $datas->execute(array(':bookName' => $bookN));
 $book = $datas->fetchAll();
 $bookId = $book[0]['book_id'];
-$authId = $book[0]['author_id'];
+$authId = $book[0]['auth_id'];
 $arrayCatActifs = array();
 $arrayCatUpdates = array();
 foreach($categorys as $category){
@@ -20,28 +20,28 @@ foreach($categorys as $category){
         $arrayCatUpdates[] = $category['categoryName'];
     }
 }
-$authFirst = $book[0]['authorFirstName'];
-$authLast = $book[0]['authorLastName'];
+$authFirst = $book[0]['authFirstName'];
+$authLast = $book[0]['authLastName'];
 if(isset($_POST['update_book'])){
-    if(!empty($_POST['authorFirstName']) || !empty($_POST['authorLastName']) || !empty($_POST['bookName']) || !empty($_POST['bookDate']) || !empty($_POST['bookDescription']) || !empty($_POST['addCategory']) || !empty($arrayCatActifs) || !empty($arrayCatUpdates)){
-        if(!empty($_POST['authorFirstName']) || !empty($_POST['authorLastName'])){
-            if(!empty($_POST['authorFirstName'])){
-                $authFirst = $_POST['authorFirstName'];
+    if(!empty($_POST['authFirstName']) || !empty($_POST['authLastName']) || !empty($_POST['bookName']) || !empty($_POST['bookDate']) || !empty($_POST['bookDescription']) || !empty($_POST['addCategory']) || !empty($arrayCatActifs) || !empty($arrayCatUpdates)){
+        if(!empty($_POST['authFirstName']) || !empty($_POST['authLastName'])){
+            if(!empty($_POST['authFirstName'])){
+                $authFirst = $_POST['authFirstName'];
             }
-            elseif(!empty($_POST['authorLastName'])){
-                $authLast = $_POST['authorLastName'];
+            elseif(!empty($_POST['authLastName'])){
+                $authLast = $_POST['authLastName'];
             }
         }
         $vrfAuth = verifAuthor($authors, $authFirst, $authLast);
         if($vrfAuth == false){
-            $dataA = $db->prepare("INSERT INTO authors (authorFirstName, authorLastName) VALUES (:authorFirstName, :authorLastName)");
-            $dataA->bindValue(':authorFirstName', $_POST['authorFirstName'], PDO::PARAM_STR);
-            $dataA->bindValue(':authorLastName',  $_POST['authorLastName'], PDO::PARAM_STR);
+            $dataA = $db->prepare("INSERT INTO authors (authFirstName, authLastName) VALUES (:authFirstName, :authLastName)");
+            $dataA->bindValue(':authFirstName', $_POST['authFirstName'], PDO::PARAM_STR);
+            $dataA->bindValue(':authLastName',  $_POST['authLastName'], PDO::PARAM_STR);
             $dataA->execute();
-            $author_id = $db->lastInsertId();
+            $auth_id = $db->lastInsertId();
         }
         else{
-            $author_id = $vrfAuth; 
+            $auth_id = $vrfAuth; 
         }
         if(!empty($_POST['bookName']) || !empty($_POST['bookDate']) || !empty($_POST['bookDescription'])){
             if(!empty($_POST['bookName'])){
