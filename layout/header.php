@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -24,6 +26,11 @@
                     <ul>
                         <li><a href="../pages/add.php">Add a book</a></li>
                         <li><a href="../pages/edit_library.php">Edit books lists</a></li>
+                        <li><a href="../pages/basket.php">Basket</a>
+                            <?php if (!empty($_SESSION['nb_books_in_basket']) &&  $_SESSION['nb_books_in_basket'] > 0): ?>
+                                <span class="nb_books_in_basket"><?php echo $_SESSION['nb_books_in_basket']; ?></span>
+                            <?php endif; ?>
+                        </li>
                     </ul>
                 </div>
             </div>

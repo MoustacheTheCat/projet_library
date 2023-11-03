@@ -1,6 +1,6 @@
 <?php 
 
-
+session_start();
 require('../php/config.php');
 require('../php/request.php');
 $pageTitle = $_GET['name'];
@@ -44,6 +44,29 @@ include('../layout/header.php');
 <div class="book-description">
     <h2>Book Description</h2>
     <p><?php echo $book['bookDescription'];?></p>
+</div>
+<div class="buy">
+    <h2>Buy</h2>
+    <?php if ($book['bookQuantity'] > 0): ?>
+        <?php 
+        $price = $book['bookPrice']; 
+        $priceHT = $price *0.8;
+        $priceTTC = $priceHT * 1.2;
+        $_SESSION['bookPrice'] = [$priceHT, $priceTTC];
+    ?>
+    <ul>
+        <li>Quantity : <?php echo $book['bookQuantity'];?></li>
+        <li>Price HT: <?php echo $priceHT; ?> €</li>
+        <li>Price TTC: <?php echo $priceTTC; ?> €</li>
+    </ul>
+    <form action="../php/action_add_on_basket.php?id=<?php echo $book['book_id'];?>" method="POST">
+        <label for="bookQuantity">Quantity :</label>
+        <input type="number" name="bookQuantity" id="bookQuantity" max="<?php echo $book['bookQuantity'];?>" placeholder="1">
+        <input type="submit" value="Buy" name="buy">
+    </form>
+    <?php else: ?>
+        <p>Out of stock</p>
+    <?php endif; ?>
 </div>
 
 <?php

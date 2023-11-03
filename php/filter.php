@@ -107,6 +107,7 @@ if(isset($_POST['filter'])){
         } 
     }
     header('Location: ../index.php');
+    unset($_SESSION['result']);
     exit;
 }
 ?>
