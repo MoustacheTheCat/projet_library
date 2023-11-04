@@ -1,9 +1,11 @@
 <?php 
-
+$bookId = $_GET['id'];
 session_start();
 require('../php/config.php');
 require('../php/request.php');
-$pageTitle = $_GET['name'];
+
+$books = getOneData($db, 'books', 'book_id', $bookId);
+$pageTitle = $books[0]['bookName'];
 $datas = $db->prepare("SELECT books.*, categorys.categoryName  , authors.authFirstName, authors.authLastName FROM books_categorys JOIN books ON books_categorys.book_id = books.book_id  JOIN  authors ON books.auth_id = authors.auth_id JOIN categorys ON books_categorys.category_id = categorys.category_id WHERE books.bookName = :bookName");
 $datas->execute(array(':bookName' => $pageTitle));
 $data = $datas->fetchAll();

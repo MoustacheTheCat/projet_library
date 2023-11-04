@@ -2,10 +2,11 @@
 session_start();
 require('config.php');
 require('request.php');
-$listBooks = getAllBookAndAuthorName($db, 'bookName', 'authFirstName', 'authLastName', 'books', 'authors');
+$listBooks = getAllBookAndAuthorName($db, 'book_id', 'bookName', 'authFirstName', 'authLastName', 'books', 'authors');
 $datas = $db->prepare("SELECT books.*, categorys.categoryName  , authors.authFirstName, authors.authLastName FROM books_categorys JOIN books ON books_categorys.book_id = books.book_id  JOIN  authors ON books.auth_id = authors.auth_id JOIN categorys ON books_categorys.category_id = categorys.category_id");
 $datas->execute();
 $datas = $datas->fetchAll();
+$books = getAllData($db, 'books');
 $tabFilterLetters = array();
 if(isset($_POST['filter'])){
     if(isset($_POST['filterLetter']) || isset($_POST['filterAuthor']) || isset($_POST['filterGenre']) || isset($_POST['filterYear']) || isset($_POST['filterText'])){
@@ -53,7 +54,7 @@ if(isset($_POST['filter'])){
             foreach($datas as $data){
                 if($data['categoryName'] == $genre){
                     $tabFilterGenres[] = $data['bookName'];
-                }
+                } 
             }
             if(!empty($tabFilterGenres)){   
                 $_SESSION['filterGenre'] = $tabFilterGenres;
@@ -67,12 +68,10 @@ if(isset($_POST['filter'])){
         }
         elseif($_POST['filterYear'] != 'year'){
             unset($_SESSION['result']);
-            $year = $_POST['filterYear'];
             $tabFilterYears = array();
-            foreach($datas as $data){
-                $dateY = substr($data['bookDate'],0,4);
-                if($dateY == $year){
-                    $tabFilterYears[] = $data['bookName'];
+            foreach($books as $book){
+                if((substr($book['bookDate'],0,4)) == $_POST['filterYear']){
+                    $tabFilterYears[] = $book['bookName'];
                 }
             }
             if(!empty($tabFilterYears)){
@@ -107,7 +106,6 @@ if(isset($_POST['filter'])){
         } 
     }
     header('Location: ../index.php');
-    unset($_SESSION['result']);
     exit;
 }
 ?>

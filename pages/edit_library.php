@@ -4,7 +4,7 @@
 require('../php/config.php');
 require('../php/request.php');
 $pageTitle = 'Edit Books in Library';
-$listBooks = getAllBookAndAuthorName($db, 'bookName', 'authFirstName', 'authLastName', 'books', 'authors');
+$listBooks = getAllBookAndAuthorName($db,'book_id','bookName', 'authFirstName', 'authLastName', 'books', 'authors');
 
 include('../layout/header.php');
 ?>
@@ -28,8 +28,8 @@ include('../layout/header.php');
             <?php foreach($listBooks as $listBook): ?>
                 <tr>
                     <td><?php echo $listBook['bookName']; ?></td>
-                    <td><a href="edit.php?name=<?php echo $listBook['bookName']; ?>">Edit <?php echo $listBook['bookName']; ?></a></td>
-                    <td><a href="delete_book.php?name=<?php echo $listBook['bookName']; ?>">Delete <?php echo $listBook['bookName']; ?></a></td>
+                    <td><a href="edit.php?id=<?php echo $listBook['book_id']; ?>">Edit <?php echo $listBook['bookName']; ?></a></td>
+                    <td><a href="delete_book.php?id=<?php echo $listBook['book_id']; ?>">Delete <?php echo $listBook['bookName']; ?></a></td>
                 </tr>
                 
            <?php endforeach; ?>

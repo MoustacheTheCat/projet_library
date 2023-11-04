@@ -2,9 +2,11 @@
 require('../php/config.php');
 require('../php/request.php');
 
-$pageName = $_GET['name'];
-
-$pageTitle = 'Edit '. $pageName;
+$$bookId = $_GET['id'];
+$books = getOneData($db, 'books', 'book_id', $bookId);
+$pageName =$books['bookName'];
+var_dump($pageName);
+$pageTitle = 'Edit '. $pageName;    
 include('../layout/header.php');
 $categorys = getAllData($db, 'categorys');
 

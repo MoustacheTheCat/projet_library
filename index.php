@@ -3,15 +3,21 @@ session_start();
 require('php/config.php');
 require('php/request.php');
 $pageTitle = 'Library';
-$listBooks = getAllBookAndAuthorName($db, 'bookName', 'authFirstName', 'authLastName', 'books', 'authors');
+$listBooks = getAllBookAndAuthorName($db,'book_id', 'bookName', 'authFirstName', 'authLastName', 'books', 'authors');
 sort($listBooks);
 $categorys = getAllData($db, 'categorys');
 $books = getAllData($db, 'books');
+$dates = array();
+foreach($books as $book){
+    if(!in_array(substr($book['bookDate'],0,4), $dates)){
+        $dates[] = substr($book['bookDate'],0,4);
+    }
+}
+sort($dates);
 $auths = getAllData($db, 'authors');
 $verifL = "";
 $verifN =""; 
-$verifY = "";
-$dates = array();
+
 include('layout/header.php');
 function authDet($col1, $col2, $auths){
     foreach($auths as $auth){
@@ -69,17 +75,8 @@ sort($tabNameAuths);
             <label for="filterYear">Filter by Year :</label>
             <select name="filterYear" id="filterYear">
                 <option value="year">Year</option>
-                <?php foreach($books as $book): ?>
-                    <?php 
-                    array_push($dates, substr($book['bookDate'],0,4));
-                    sort($dates);
-                    ?>
-                    <?php endforeach; ?>
-                    <?php foreach($dates as $date): ?>
-                    <?php if($verifY != $date): ?>
-                        <option value="<?php echo $date; ?>"><?php echo  $date; ?></option>
-                        <?php $verifY = $date; ?>
-                    <?php endif; ?>
+                <?php foreach($dates as $date): ?>
+                    <option value="<?php echo $date; ?>"><?php echo  $date; ?></option>
                 <?php endforeach; ?>
             </select>
             <label for="filterText">Recherche :</label>
@@ -107,7 +104,7 @@ sort($tabNameAuths);
                 <div class="book-list">
                     <?php foreach($listBooks as $listBook): ?>
                         <tr>
-                            <td><a href="pages/detais.php?name=<?php echo $listBook['bookName']; ?>"><?php echo $listBook['bookName']; ?></a></td>
+                            <td><a href="pages/detais.php?id=<?php echo $listBook['book_id']; ?>"><?php echo $listBook['bookName']; ?></a></td>
                             <?php authDet($listBook['authFirstName'], $listBook['authLastName'], $auths); ?>
                         </tr>
                     <?php endforeach; ?>
@@ -118,7 +115,7 @@ sort($tabNameAuths);
                                 <?php foreach($listBooks as $listBook): ?>
                                     <?php if ($listBk == $listBook['bookName']): ?>
                                         <tr>
-                                            <td><a href="pages/detais.php?name=<?php echo $listBook['bookName']; ?>"><?php echo $listBook['bookName']; ?></a></td>
+                                            <td><a href="pages/detais.php?id=<?php echo $listBook['book_id']; ?>"><?php echo $listBook['bookName']; ?></a></td>
                                             <?php authDet($listBook['authFirstName'], $listBook['authLastName'], $auths); ?>
                                         </tr>
                                     <?php endif; ?>
@@ -129,7 +126,7 @@ sort($tabNameAuths);
                                 <?php foreach($listBooks as $listBook): ?>
                                     <?php if ($listBk == $listBook['bookName']): ?>
                                         <tr>
-                                            <td><a href="pages/detais.php?name=<?php echo $listBook['bookName']; ?>"><?php echo $listBook['bookName']; ?></a></td>
+                                            <td><a href="pages/detais.php?id=<?php echo $listBook['book_id']; ?>"><?php echo $listBook['bookName']; ?></a></td>
                                             <?php authDet($listBook['authFirstName'], $listBook['authLastName'], $auths); ?>
                                         </tr>
                                     <?php endif; ?>
@@ -140,7 +137,7 @@ sort($tabNameAuths);
                                 <?php foreach($listBooks as $listBook): ?>
                                     <?php if ($listBk == $listBook['bookName']): ?>
                                         <tr>
-                                            <td><a href="pages/detais.php?name=<?php echo $listBook['bookName']; ?>"><?php echo $listBook['bookName']; ?></a></td>
+                                            <td><a href="pages/detais.php?id=<?php echo $listBook['book_id']; ?>"><?php echo $listBook['bookName']; ?></a></td>
                                             <?php authDet($listBook['authFirstName'], $listBook['authLastName'], $auths); ?>
                                         </tr>
                                     <?php endif; ?>
@@ -151,7 +148,7 @@ sort($tabNameAuths);
                                 <?php foreach($listBooks as $listBook): ?>
                                     <?php if ($listBk == $listBook['bookName']): ?>
                                         <tr>
-                                            <td><a href="pages/detais.php?name=<?php echo $listBook['bookName']; ?>"><?php echo $listBook['bookName']; ?></a></td>
+                                            <td><a href="pages/detais.php?id=<?php echo $listBook['book_id']; ?>"><?php echo $listBook['bookName']; ?></a></td>
                                             <?php authDet($listBook['authFirstName'], $listBook['authLastName'], $auths); ?>
                                         </tr>
                                     <?php endif; ?>
@@ -162,7 +159,7 @@ sort($tabNameAuths);
                                 <?php foreach($listBooks as $listBook): ?>
                                     <?php if ($listBk == $listBook['bookName']): ?>
                                         <tr>
-                                            <td><a href="pages/detais.php?name=<?php echo $listBook['bookName']; ?>"><?php echo $listBook['bookName']; ?></a></td>
+                                            <td><a href="pages/detais.php?id=<?php echo $listBook['book_id']; ?>"><?php echo $listBook['bookName']; ?></a></td>
                                             <?php authDet($listBook['authFirstName'], $listBook['authLastName'], $auths); ?>
                                         </tr>
                                     <?php endif; ?>

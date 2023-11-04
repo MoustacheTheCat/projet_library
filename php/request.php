@@ -9,8 +9,8 @@ function getAllData($db, $table_name){
     return $names;
 }
 
-function getAllBookAndAuthorName($db, $colNB, $colFNA, $colLNA, $tB, $tA){
-    $data = $db->prepare("SELECT $colNB, $colFNA, $colLNA FROM $tB INNER JOIN $tA ON $tB.auth_id = $tA.auth_id"); 
+function getAllBookAndAuthorName($db, $colIdB, $colNB, $colFNA, $colLNA, $tB, $tA){
+    $data = $db->prepare("SELECT $colIdB, $colNB, $colFNA, $colLNA FROM $tB INNER JOIN $tA ON $tB.auth_id = $tA.auth_id"); 
     $data->execute();
     $names = $data->fetchAll(); 
     return $names;
