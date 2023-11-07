@@ -32,7 +32,4 @@ else{
     $_SESSION['error'] = 'Please fill all fields';
 }
 
-if(!empty($_SESSION['error']) || !empty($_SESSION['response'])){
-    header('Location: ../index.php');
-    exit;
-}
+responseMessage();

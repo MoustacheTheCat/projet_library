@@ -1,14 +1,13 @@
 <?php
 require('config.php');
 $basket = $_SESSION['basket'];
-print_r($_SESSION);
 if(isset($_POST['confirm'])){
     $dataO = $db->prepare("INSERT INTO orders (ordersNumber, customer_id, totalHT, totalTTC, ordersStatus) VALUES (:ordersNumber, :customer_id, :totalHT, :totalTTC, :ordersStatus)");   
     $dataO->execute(array(
-        ':ordersNumber' => $basket['ordersNumber'],
+        ':ordersNumber' => $_SESSION['basket']['ordersNumber'],
         ':customer_id' => $_SESSION['customerId'],
-        ':totalHT' => $basket['totalHT'],
-        ':totalTTC' => $basket['totalTTC'],
+        ':totalHT' => $_SESSION['basket']['totalPriceHT'],
+        ':totalTTC' => $_SESSION['basket']['totalPriceTTC'],
         ':ordersStatus' => 'pending'
     ));
     $orderId = $db->lastInsertId();
@@ -18,7 +17,7 @@ if(isset($_POST['confirm'])){
             ':book_id' => $product['book_id'],
             ':orders_id' => $orderId,
             ':quantity' => $product['bookQuantity'],
-            ':totalHT' => ($product['priceTTC'] *0.8)*$product['bookQuantity'],
+            ':totalHT' => ($product['priceHT'])*$product['bookQuantity'],
             ':totalTTC' => ($product['priceTTC'])*$product['bookQuantity']
         ));
     }
@@ -36,14 +35,19 @@ if(isset($_POST['confirm'])){
             ':book_id' => $product['book_id']
         ));
     }
-    $to = $_POST['customerEmail'];
+    $customers = getOneData($db, 'customer', 'customer_id', $_SESSION['customerId']);
+    $customerEmail = $customers[0]['customerEmail'];
+    $to = $customerEmail;
     $subject = 'Order confirmation';
     $message = 'Your order has been confirmed. Your order number is '.$basket['ordersNumber'].'. Thank you for your purchase.';
     $headers = 'From: library@php.com';
     mail($to, $subject, $message, $headers);
     unset($_SESSION['basket']);
+    unset($_SESSION['bookPrice']);
+    unset($_SESSION['totalPriceHT']);
+    unset($_SESSION['totalPriceTTC']);
     unset($_SESSION['nb_books_in_basket']);
-    header('Location: ../index.php');
-    exit;
+    $_SESSION['response'] = "Your order has been confirmed. Your order number is ".$basket['ordersNumber'].". Thank you for your purchase.";
+    responseMessage();
 }
 ?>

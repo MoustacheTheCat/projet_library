@@ -4,6 +4,7 @@ if(isset($_POST['buy']) && isset($_GET['id'])){
     $bookId = $_GET['id'];
     $bookQuantity = $_POST['bookQuantity'];
     $tabPrice = $_SESSION['bookPrice'];
+    print_r($tabPrice);
     if($bookQuantity == ""){
         $bookQuantity = 1;
     }
@@ -12,8 +13,6 @@ if(isset($_POST['buy']) && isset($_GET['id'])){
             $bookQuantity += $product['bookQuantity'];
         }
     }
-    $totalHT = $tabPrice[0] * $bookQuantity;
-    $totaTTC = $tabPrice[1] * $bookQuantity;
     $ordersNumber = rand(100000, 999999);
     if(empty($_SESSION['basket'])){
         $_SESSION['basket'] = array();
@@ -21,20 +20,20 @@ if(isset($_POST['buy']) && isset($_GET['id'])){
         $product = array();
         $product['book_id'] = $bookId;
         $product['bookQuantity'] = $bookQuantity;
-        $product['priceHT'] = $totaHT;
-        $product['priceTTC'] = $totaTTC;
+        $product['priceHT'] = $tabPrice[0] * $bookQuantity;
+        $product['priceTTC'] = $tabPrice[1] * $bookQuantity;
         $_SESSION['basket']['products'][] = $product;
     }
     else{
         $product = array();
         $product['book_id'] = $bookId;
         $product['bookQuantity'] = $bookQuantity;
-        $product['priceHT'] = $totaHT;
-        $product['priceTTC'] = $totaTTC;
+        $product['priceHT'] = $tabPrice[0] * $bookQuantity;
+        $product['priceTTC'] = $tabPrice[1] * $bookQuantity;
         $_SESSION['basket']['products'][] = $product;
     }
     $_SESSION['nb_books_in_basket'] += 1;
-    header('Location: ../index.php');
-    exit;
+    $_SESSION['response'] = "Your book has been added to your basket";
+    responseMessage();
 }
 ?>

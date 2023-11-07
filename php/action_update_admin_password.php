@@ -22,8 +22,7 @@ if(isset($_POST['update-password'])){
     else{
         $_SESSION['error'] = 'password is incorrect';
     }
-    header('Location: ../pages/admin_info.php');
-    exit;
+    responseMessage();
 }
 
 ?>

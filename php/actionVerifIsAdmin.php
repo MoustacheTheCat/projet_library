@@ -4,13 +4,10 @@ if(!isset($_SESSION['adminId']) || !empty($_SESSION['adminId'])){
     foreach($admins as $admin){
         $adminIsAdmin = false;
         if($admin['admin_id'] == $_SESSION['adminId']){
-            $adminIsAdmin = true;
+            $_SESSION['message'] = 'You are an admin';
             } 
-        return $adminIsAdmin;
+        $_SESSION['error'] = 'You are not an admin';
     }
-    if(!$adminIsAdmin){
-        header('Location: ../index.php');
-        exit;
-    }
+    responseMessage();
 }
 ?>

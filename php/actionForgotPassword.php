@@ -36,9 +36,6 @@ if(isset($_POST['send'])){
     }else{  
         $_SESSION['error'] = 'Email not found';
     }
-    if(!empty($_SESSION['error']) || !empty($_SESSION['response'])){
-        header('Location: ../index.php');
-        exit;
-    }
+    responseMessage();
 }
 ?>

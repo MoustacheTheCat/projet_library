@@ -1,7 +1,7 @@
 <?php 
 
 
-session_start();require('../php/config.php');
+require('../php/config.php');
 
 $authId = $_GET['id'];
 

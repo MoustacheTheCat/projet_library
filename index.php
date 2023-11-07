@@ -1,5 +1,6 @@
 <?php 
 require('php/config.php');
+verifyUserType($_SESSION);
 $pageTitle = 'Library';
 $listBooks = getAllBookAndAuthorName($db,'book_id', 'bookName', 'authFirstName', 'authLastName', 'books', 'authors');
 $categorys = getAllData($db, 'categorys');
@@ -14,7 +15,6 @@ sort($dates);
 $auths = getAllData($db, 'authors');
 $verifL = "";
 $verifN =""; 
-
 include('layout/header.php');
 function authDet($col1, $col2, $auths){
     foreach($auths as $auth){
@@ -44,7 +44,13 @@ foreach($auths as $auth){
     }
 }
 sort($tabNameAuths);
+
 ?>
+<?php if (!empty($_SESSION['response'])): ?>
+    <div class="response">
+        <p><?php echo $_SESSION['response']; ?></p>
+    </div>
+<?php endif; ?>
 <div class="form-filter">
         <form action="php/filter.php" method="post">
             <label for="filterLetter">Filter by Letters</label>

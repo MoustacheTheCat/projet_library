@@ -16,15 +16,7 @@ if(isset($_POST['filter'])){
                     $tabFilterLetters[] = $listBook['bookName'];
                 }
             }
-            if(!empty($tabFilterLetters)){
-                $_SESSION['filterLetter'] = $tabFilterLetters;
-                header('Location: ../index.php?filter=1');
-                exit;
-            }
-            else {
-                unset($_SESSION['filterLetter']);
-                $_SESSION['result'] = 'No result found';
-            }
+            responseFilter($tabFilterLetters, 'filterLetter', 1);
         }
         elseif($_POST['filterAuthor'] != 'author'){
             unset($_SESSION['result']);
@@ -35,15 +27,7 @@ if(isset($_POST['filter'])){
                     $tabFilterAuthors[] = $listBook['bookName'];
                 }
             }
-            if(!empty($tabFilterAuthors)){
-                $_SESSION['filterAuthor'] = $tabFilterAuthors;
-                header('Location: ../index.php?filter=2');
-                exit;
-            }
-            else {
-                unset($_SESSION['filterAuthor']);
-                $_SESSION['result'] = 'No result found';
-            }
+            responseFilter($tabFilterAuthors, 'filterAuthor', 2);
         }
         elseif($_POST['filterGenre'] != 'genre'){
             unset($_SESSION['result']);
@@ -54,15 +38,7 @@ if(isset($_POST['filter'])){
                     $tabFilterGenres[] = $data['bookName'];
                 } 
             }
-            if(!empty($tabFilterGenres)){   
-                $_SESSION['filterGenre'] = $tabFilterGenres;
-                header('Location: ../index.php?filter=3');
-                exit;
-            }
-            else {
-                unset($_SESSION['filterGenre']);
-                $_SESSION['result'] = 'No result found';
-            }   
+            responseFilter($tabFilterGenres, 'filterGenre', 3);  
         }
         elseif($_POST['filterYear'] != 'year'){
             unset($_SESSION['result']);
@@ -72,38 +48,21 @@ if(isset($_POST['filter'])){
                     $tabFilterYears[] = $book['bookName'];
                 }
             }
-            if(!empty($tabFilterYears)){
-                $_SESSION['filterYear'] = $tabFilterYears;
-                header('Location: ../index.php?filter=4');
-                exit;
-            }
-            else {
-                unset($_SESSION['filterYear']);
-                $_SESSION['result'] = 'No result found';
-            }
+            responseFilter($tabFilterYears, 'filterYear', 4);
         }
         elseif (!empty($_POST['filterText'])) {
             unset($_SESSION['result']);
             $searchText = $_POST['filterText'];
             $tabFilterTexts = array();
             foreach ($listBooks as $listBook) {
-
                 if (stripos($listBook['bookName'], $searchText) != false) {
                     $tabFilterTexts[] = $listBook['bookName'];
                 }
             }
-            if(!empty($tabFilterTexts)){
-                $_SESSION['filterText'] = $tabFilterTexts;
-                header('Location: ../index.php?filter=5');
-                exit;
-            }
-            else {
-                unset($_SESSION['filterText']);
-                $_SESSION['result'] = 'No result found';
-            }
+            responseFilter($tabFilterTexts, 'filterText', 5);
         } 
     }
-    header('Location: ../index.php');
-    exit;
+    $_SESSION['message']= "Please select a filter";
+    responseMessage();
 }
 ?>

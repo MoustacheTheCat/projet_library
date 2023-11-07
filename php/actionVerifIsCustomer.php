@@ -4,13 +4,10 @@ if(!isset($_SESSION['customerId']) || !empty($_SESSION['customerId'])){
     foreach($customers as $customer){
         $customerIscustomer = false;
         if($customer['customer_id'] == $_SESSION['customerId']){
-            $customerIscustomer = true;
+            $_SESSION['message'] = 'You are a customer';
             } 
-        return $customerIscustomer;
+        $_SESSION['error'] = 'You are not a customer';
     }
-    if(!$customerIscustomer){
-        header('Location: ../index.php');
-        exit;
-    }
+    responseMessage();
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 require('../php/config.php');
 require('../php/actionVerifIsAdmin.php');
-$pageTitle = 'Customer list';
+$pageTitle = 'Orders list';
 include('../layout/header.php');
 $orders = getAllData($db, 'orders');
 ?>

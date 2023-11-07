@@ -73,8 +73,7 @@ $tabAdmin = array();
     }
     else{
         $_SESSION['error'] = 'You must fill at least one field';
-        header('Location: ../pages/edit_admin.php');
-        exit;
+        responseMessage();
     }
 } 
 ?>

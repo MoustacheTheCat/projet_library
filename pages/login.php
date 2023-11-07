@@ -17,3 +17,13 @@ session_start();
     <a href="register_customer.php">Register</a>
     <a href="forgotPassword.php">Forgot password</a>
 </div>
+<?php
+    if(isset($_SESSION['error'])){
+        echo $_SESSION['error'];
+        unset($_SESSION['error']);
+    }
+    if(isset($_SESSION['response'])){
+        echo $_SESSION['response'];
+        unset($_SESSION['response']);
+    }
+?>

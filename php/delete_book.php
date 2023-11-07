@@ -19,7 +19,11 @@ if (isset($_GET['name'])) {
     if ($count === 1) {
         $dataA = $db->prepare("DELETE FROM authors WHERE auth_id = :auth_id");
         $dataA->execute(array(':auth_id' => $id_auth));
+        $_SESSION['response'] = "The book".$book['bookName']."has been deleted";
     }
-    header('Location: ../index.php');
+    else {
+        $_SESSION['error'] = "The book".$book['bookName']."has been deleted";
+    }
+    responseMessage();
 }
 ?>

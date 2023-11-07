@@ -4,6 +4,11 @@ $pageTitle = 'Customer register';
 include('../layout/header.php');
 ?>
 <h2>Create your acompte</h2>
+<?php if(!empty($_SESSION['error'])): ?>
+    <div class="error">
+        <p><?php echo $_SESSION['error']; ?></p>
+    </div>
+<?php endif; ?>
 <div class="form-inof-customer">
     <form action="../php/action_register_customer.php" method="POST">
         <label for="customerFirstName">First Name :</label>

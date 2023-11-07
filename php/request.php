@@ -1,5 +1,24 @@
 <?php
 
+
+function connect_bd() : PDO
+{
+    require_once '/var/www/html/projet_library/config/_connect.php';
+    $pdo = new \PDO(DSN, USER, PASS);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    return $pdo;
+}
+
+try
+{
+    $db=connect_bd();
+}
+catch(Exception $e)
+{
+        die('Erreur : '.$e->getMessage());
+}
+
+
 //request GET ALL
 
 function getAllData($db, $table_name){
@@ -42,11 +61,21 @@ function getOneBookAndAuthorName($db, $bA, $colFNA, $colLNA, $tB, $tA, $name_col
 }
 
 function getOneBookAndAllDetail($db ,$tBC, $tB, $tA, $tC, $id){
-    $data = $db->prepare("SELECT $tB.*, 'categoryName' , 'authFirstName','authLastName' FROM $tBC JOIN $tB ON $tBC.book_id = $tB.book_id JOIN $tA ON $tB.auth_id = $tA.auth_id JOIN $tC ON $tBC.category_id = $tC.category_id WHERE $tB.bookName = :bookName");
+    $data = $db->prepare("SELECT $tB.*, 'categoryName' , 'authFirstName','authLastName' FROM $tBC JOIN $tB ON $tBC.book_id = $tB.book_id JOIN $tA ON $tB.auth_id = $tA.auth_id JOIN $tC ON $tBC.category_id = $tC.category_id WHERE $tB.bookName = :bookName ");
     $data->execute(array(':bookName' => $id));
     $name = $data->fetchAll(); 
     return $name;   
 };
+
+
+function getAllBooksDetailWithCategoryAndAuthorName($db, $tBC, $tB, $tA, $tC){
+    $data = $db->prepare("SELECT $tB.*, $tC.categoryName, $tA.authFirstName, $tA.authLastName FROM $tBC JOIN $tB ON $tBC.book_id = $tB.book_id JOIN $tA ON $tB.auth_id = $tA.auth_id JOIN $tC ON $tBC.category_id = $tC.category_id");
+    $data->execute(array());
+    $name = $data->fetchAll(); 
+    return $name;   
+};
+
+
 
 
 

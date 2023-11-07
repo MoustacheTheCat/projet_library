@@ -49,11 +49,12 @@ if(isset($_POST['add_book'])){
                 }
             }
         }
-        header('Location: ../index.php');
+        $_SESSION['response'] = 'Book added';
     }
     else {
-        echo 'Veuillez remplir tous les champs';
+        $_SESSION['error'] = 'Please fill in all fields';
     }
+    responseMessage();
 }
 
 

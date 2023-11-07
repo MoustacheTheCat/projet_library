@@ -85,10 +85,11 @@ if(isset($_POST['update_book'])){
                 }
             }
         }
-        header('Location: ../index.php');
+        $_SESSION['response'] = "The book has been updated";
     }
     else {
-        echo "all fields are empty";
+        $_SESSION['error'] = "all fields are empty";
     }
+    responseMessage();
 }
 ?>

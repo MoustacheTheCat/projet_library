@@ -25,7 +25,6 @@ if(isset($_POST['confirm']) ){
     else   {
         $_SESSION['error'] = 'password incorrect';
     }
-    header('Location: ../pages/admin_info.php');
-    exit;        
+    responseMessage();       
 }
 ?>
