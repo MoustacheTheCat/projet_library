@@ -1,6 +1,5 @@
 <?php
 require('config.php');
-require('request.php');
 $arrayCats = array();
 $categorys = getAllData($db, 'categorys');
 foreach($categorys as $category){

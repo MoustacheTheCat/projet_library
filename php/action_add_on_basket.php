@@ -1,15 +1,16 @@
 <?php
-session_start();
 require('config.php');
-require('request.php');
-print_r($_POST);
-print_r($_SESSION);
 if(isset($_POST['buy']) && isset($_GET['id'])){
     $bookId = $_GET['id'];
     $bookQuantity = $_POST['bookQuantity'];
     $tabPrice = $_SESSION['bookPrice'];
     if($bookQuantity == ""){
         $bookQuantity = 1;
+    }
+    foreach($_SESSION['basket']['products'] as $product){
+        if($product['book_id'] == $bookId){
+            $bookQuantity += $product['bookQuantity'];
+        }
     }
     $totalHT = $tabPrice[0] * $bookQuantity;
     $totaTTC = $tabPrice[1] * $bookQuantity;

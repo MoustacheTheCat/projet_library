@@ -1,12 +1,9 @@
 <?php 
-
-
 require('../php/config.php');
-require('../php/request.php');
+require('../php/actionVerifIsAdmin.php');
 $pageTitle = 'Add a book';
 include('../layout/header.php');
 $categorys = getAllData($db, 'categorys');
-
 ?>
 <div class="add-book">
     <form action="../php/action_add_book.php" method="POST">

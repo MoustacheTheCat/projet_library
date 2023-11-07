@@ -1,8 +1,8 @@
 <?php 
 
 
-require('../php/config.php');
-require('../php/request.php');
+session_start();require('../php/config.php');
+
 $authId = $_GET['id'];
 
 $auths = getOneData($db, 'authors', 'auth_id', $authId);

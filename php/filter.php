@@ -1,7 +1,5 @@
 <?php
-session_start();
 require('config.php');
-require('request.php');
 $listBooks = getAllBookAndAuthorName($db, 'book_id', 'bookName', 'authFirstName', 'authLastName', 'books', 'authors');
 $datas = $db->prepare("SELECT books.*, categorys.categoryName  , authors.authFirstName, authors.authLastName FROM books_categorys JOIN books ON books_categorys.book_id = books.book_id  JOIN  authors ON books.auth_id = authors.auth_id JOIN categorys ON books_categorys.category_id = categorys.category_id");
 $datas->execute();

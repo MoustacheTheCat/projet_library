@@ -1,7 +1,6 @@
 <?php
 
 require('config.php');
-require('request.php');
 $bookN = $_GET['name'];
 $categorys = getAllData($db, 'categorys');
 $authors = getAllData($db, 'authors');

@@ -1,14 +1,12 @@
 <?php 
-$pageTitle = 'Basket';
-session_start();
 require('../php/config.php');
-require('../php/request.php');
+$pageTitle = 'Basket';
 include('../layout/header.php');
-$products = $_SESSION['basket']['products'];
-$books = getAllData($db, 'books');
-
 ?>
-<div class="list_basket">
+<?php if (!empty($_SESSION['basket'])): ?>
+    <?php $tabBasket = $_SESSION['basket']; ?>
+    <?php $products = $_SESSION['basket']['products']; ?>
+    <div class="list_basket">
     <h2>Basket list :</h2>
     <table>
         <thead>
@@ -20,6 +18,7 @@ $books = getAllData($db, 'books');
             </tr>
         </thead>
         <tbody>
+            <?php $books = getAllData($db, 'books');?>
             <?php foreach($products as $product): ?>
                 <tr>
                     <?php foreach($books as $book): ?>
@@ -28,18 +27,66 @@ $books = getAllData($db, 'books');
                         <?php endif; ?>
                     <?php endforeach; ?>
                     <td><?php echo $product['bookQuantity']; ?></td>
-                    <td><?php echo $product['priceHT']; ?></td>
+                    <td><?php echo $product['priceTTC']*0.8; ?></td>
                     <td><?php echo $product['priceTTC']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">Total HT</td>
+                <td>
+                    <?php 
+                        $totalHT = 0;
+                        foreach($products as $product){
+                            $totalHT += $product['priceTTC']*0.8;
+                        }
+                        $tabBasket['totalHT'] = $totalHT;
+                        echo $totalHT;
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">Total TTC</td>
+                <td>
+                <?php 
+                        $totalTTC = 0;
+                        foreach($products as $product){
+                            $totalTTC += $product['priceTTC'];
+                        }
+                        $tabBasket['totalTTC'] = $totalTTC;
+                        echo $totalTTC;
+                    ?>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </div>
-<div class="confirm-basket">
-    <form action="customer_info.php" method="POST">
+<?php $_SESSION['basket'] = $tabBasket; ?>
+
+<?php if(isset($_SESSION['customerId'])) :?>
+    <div class="confirm-basket">
+    <form action="../php/action_buy.php" method="POST">
         <input type="submit" value="Confirm" name="confirm">
     </form>
 </div>
+
+<?php else :?> 
+    <div class="confirm-basket">
+    <form action="login.php" method="POST">
+        <input type="submit" value="Confirm" name="confirm">
+    </form>
+</div>
+<?php endif; ?>
+
+
+<?php else: ?>
+    <h2>Your basket is empty</h2>
+<?php endif; ?>
+
+
+
+
 
 <?php
 include('../layout/footer.php');

@@ -10,7 +10,7 @@ function getAllData($db, $table_name){
 }
 
 function getAllBookAndAuthorName($db, $colIdB, $colNB, $colFNA, $colLNA, $tB, $tA){
-    $data = $db->prepare("SELECT $colIdB, $colNB, $colFNA, $colLNA FROM $tB INNER JOIN $tA ON $tB.auth_id = $tA.auth_id"); 
+    $data = $db->prepare("SELECT $colIdB, $colNB, $colFNA, $colLNA FROM $tB INNER JOIN $tA ON $tB.auth_id = $tA.auth_id ORDER BY $colNB ASC"); 
     $data->execute();
     $names = $data->fetchAll(); 
     return $names;
@@ -25,6 +25,13 @@ function getOneData($db, $table_name, $name_column ,$id){
     $data->execute(array(':'.$name_column => $id));
     $name = $data->fetchAll(); 
     return $name;
+}
+
+function getPassword($db, $table_name, $col_password, $name_column ,$id){
+    $data = $db->prepare("SELECT $col_password FROM  $table_name WHERE $name_column= :$name_column"); 
+    $data->execute(array(':'.$name_column => $id));
+    $password = $data->fetchAll(); 
+    return $password;
 }
 
 function getOneBookAndAuthorName($db, $bA, $colFNA, $colLNA, $tB, $tA, $name_column ,$id){

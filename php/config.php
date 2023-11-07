@@ -1,5 +1,7 @@
 <?php
 ini_set('display_errors', 'On');
+session_start();
+
 try
 {
 $db = new PDO('mysql:host=localhost; dbname=library; charset=utf8', 'admin_library', 'password');
@@ -9,6 +11,6 @@ catch(Exception $e)
 {
         die('Erreur : '.$e->getMessage());
 }
-
+require('request.php');
 
 ?>

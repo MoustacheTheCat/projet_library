@@ -24,13 +24,50 @@
                 </div>
                 <div class="nav-menu">
                     <ul>
-                        <li><a href="../pages/add.php">Add a book</a></li>
-                        <li><a href="../pages/edit_library.php">Edit books lists</a></li>
-                        <li><a href="../pages/basket.php">Basket</a>
-                            <?php if (!empty($_SESSION['nb_books_in_basket']) &&  $_SESSION['nb_books_in_basket'] > 0): ?>
-                                <span class="nb_books_in_basket"><?php echo $_SESSION['nb_books_in_basket']; ?></span>
-                            <?php endif; ?>
-                        </li>
+                        
+                        <?php if (!empty($_SESSION['customerId'])): ?>
+                            <li>
+                                <a href="../pages/basket.php">Basket</a>
+                                <?php if (!empty($_SESSION['nb_books_in_basket']) &&  $_SESSION['nb_books_in_basket'] > 0): ?>
+                                    <span class="nb_books_in_basket"><?php echo $_SESSION['nb_books_in_basket']; ?></span>
+                                <?php endif; ?>
+                            </li>
+                            <li>Customer
+                                <ul>
+                                    <li><a href="../pages/customer_info.php?id=<?php echo $_SESSION['customerId'];?>">Customer info</a></li>
+                                    <li><a href="../php/action_logout.php">Logout</a></li>
+                                </ul>
+                            </li>
+                        <?php elseif (!empty($_SESSION['adminId'])): ?>
+                            <li>Book
+                                <ul>
+                                    <li><a href="../pages/add_book.php">Add a book</a></li>
+                                    <li><a href="../pages/edit_library.php">Edit books list</a></li>
+                                </ul>
+                            </li>
+                            <li>Customer and order
+                                <ul>
+                                    <li><a href="../pages/customer_list.php">Customers list</a></li>
+                                    <li><a href="../pages/order_list.php">Orders list</a></li>
+                                </ul>
+                            </li>
+                            <li>Admin
+                                <ul>
+                                    <li><a href="../pages/admin_info.php">Admin info</a></li>
+                                    <li><a href="../pages/edit_admin.php">Edit acompte</a></li>
+                                    <li><a href="../pages/register_admin.php">Add admin</a></li>
+                                    <li><a href="../php/action_logout.php">Logout</a></li>
+                                </ul>
+                            </li>
+                        <?php else: ?>
+                            <li>
+                                <a href="../pages/basket.php">Basket</a>
+                                <?php if (!empty($_SESSION['nb_books_in_basket']) &&  $_SESSION['nb_books_in_basket'] > 0): ?>
+                                    <span class="nb_books_in_basket"><?php echo $_SESSION['nb_books_in_basket']; ?></span>
+                                <?php endif; ?>
+                            </li>
+                            <li><a href="../pages/login.php">Login</a></li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>

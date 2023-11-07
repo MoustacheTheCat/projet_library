@@ -1,15 +1,12 @@
 <?php 
-$bookId = $_GET['id'];
-session_start();
-require('../php/config.php');
-require('../php/request.php');
 
-$books = getOneData($db, 'books', 'book_id', $bookId);
-$pageTitle = $books[0]['bookName'];
-$datas = $db->prepare("SELECT books.*, categorys.categoryName  , authors.authFirstName, authors.authLastName FROM books_categorys JOIN books ON books_categorys.book_id = books.book_id  JOIN  authors ON books.auth_id = authors.auth_id JOIN categorys ON books_categorys.category_id = categorys.category_id WHERE books.bookName = :bookName");
-$datas->execute(array(':bookName' => $pageTitle));
+require('../php/config.php');
+$bookId = $_GET['id'];
+$datas = $db->prepare("SELECT books.*, categorys.categoryName  , authors.authFirstName, authors.authLastName FROM books_categorys JOIN books ON books_categorys.book_id = books.book_id  JOIN  authors ON books.auth_id = authors.auth_id JOIN categorys ON books_categorys.category_id = categorys.category_id WHERE books.book_id = :book_id");
+$datas->execute(array(':book_id' => $bookId));
 $data = $datas->fetchAll();
 $book = $data[0];
+$pageTitle = $book['bookName'];
 include('../layout/header.php');
 ?>
 <div class="book-detail">
@@ -64,7 +61,7 @@ include('../layout/header.php');
     <form action="../php/action_add_on_basket.php?id=<?php echo $book['book_id'];?>" method="POST">
         <label for="bookQuantity">Quantity :</label>
         <input type="number" name="bookQuantity" id="bookQuantity" max="<?php echo $book['bookQuantity'];?>" placeholder="1">
-        <input type="submit" value="Buy" name="buy">
+        <input type="submit" value="add in basket" name="buy">
     </form>
     <?php else: ?>
         <p>Out of stock</p>

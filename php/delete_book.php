@@ -1,6 +1,5 @@
 <?php
 require('config.php');
-require('request.php');
 $count = 0;
 $id_auth = 0;
 if (isset($_GET['name'])) {

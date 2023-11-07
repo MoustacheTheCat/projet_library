@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : ven. 03 nov. 2023 à 10:56
+-- Généré le : mar. 07 nov. 2023 à 09:58
 -- Version du serveur : 10.6.12-MariaDB-0ubuntu0.22.04.1
 -- Version de PHP : 8.2.12
 
@@ -20,6 +20,35 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `library`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `admins`
+--
+
+CREATE TABLE `admins` (
+  `admin_id` int(11) NOT NULL,
+  `adminFirstName` varchar(100) NOT NULL,
+  `adminLastName` varchar(100) NOT NULL,
+  `adminBirthday` date NOT NULL,
+  `adminEmail` varchar(100) NOT NULL,
+  `adminPassword` varchar(100) NOT NULL,
+  `adminPhone` varchar(100) NOT NULL,
+  `adminAdress` varchar(100) NOT NULL,
+  `adminCity` varchar(100) NOT NULL,
+  `adminZip` varchar(5) NOT NULL,
+  `adminContry` varchar(100) NOT NULL,
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `admins`
+--
+
+INSERT INTO `admins` (`admin_id`, `adminFirstName`, `adminLastName`, `adminBirthday`, `adminEmail`, `adminPassword`, `adminPhone`, `adminAdress`, `adminCity`, `adminZip`, `adminContry`, `createdAt`, `updatedAt`) VALUES
+(1, 'admin', 'all', '2023-11-22', 'joubert.mathieu753783@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$UjlUaUREekdhWjVLMUVTZg$UsFaBe4DsxJaLxDYNdn/jKh4LvP7mW+5yX1oI5ZzbDY', '0615835301', '7 allée des oiseaux', 'Paris', '75020', 'France', '2023-11-06 10:38:51', '2023-11-06 10:38:51');
 
 -- --------------------------------------------------------
 
@@ -130,7 +159,7 @@ INSERT INTO `books` (`book_id`, `bookName`, `auth_id`, `bookDate`, `bookPrice`, 
 (7, 'La Fille de papier', 1, '2023-10-30', 31, 20, 'Tom Boyd, un écrivain célèbre en panne d’inspiration, voit surgir dans sa vie l\'héroïne de ses romans.', '2023-11-02 09:37:46', '2023-11-02 09:37:46'),
 (8, '7 ans après', 1, '2023-10-30', 38, 30, 'Il raconte l\'histoire de Sebastian et Nikki. Un luthier aux doigts d\'or et une artiste rêvant de s\'engager dans le mannequinat.', '2023-11-02 09:37:46', '2023-11-02 09:37:46'),
 (9, 'Demain', 1, '2023-10-30', 10, 39, 'Le roman raconte l\'histoire d\'Emma, une jeune New-Yorkaise de 32 ans, à la recherche de l\'homme de sa vie.', '2023-11-02 09:37:46', '2023-11-02 09:37:46'),
-(10, 'Central Park', 1, '2023-10-30', 6, 3, 'Le roman raconte l\'histoire d\'Alice, capitaine à la brigade criminelle de Paris, et de Gabriel, pianiste de jazz américain.', '2023-11-02 09:37:46', '2023-11-02 09:37:46'),
+(10, 'Central Park', 1, '2023-10-30', 6, 2, 'Le roman raconte l\'histoire d\'Alice, capitaine à la brigade criminelle de Paris, et de Gabriel, pianiste de jazz américain.', '2023-11-02 09:37:46', '2023-11-02 09:37:46'),
 (598, 'Le Seigneur des Anneaux', 27, '2023-11-01', 34, 1, 'Une épopée fantastique', '2023-11-02 09:37:46', '2023-11-02 09:37:46'),
 (599, 'Harry Potter à l\'école des sorciers', 28, '2023-11-01', 9, 48, 'L\'histoire d\'un jeune sorcier.', '2023-11-02 09:37:58', '2023-11-02 09:37:58'),
 (600, '1984', 29, '2023-11-01', 38, 37, 'Une dystopie oppressive.', '2023-11-02 09:37:58', '2023-11-02 09:37:58'),
@@ -148,7 +177,7 @@ INSERT INTO `books` (`book_id`, `bookName`, `auth_id`, `bookDate`, `bookPrice`, 
 (616, 'Moby Dick', 45, '2023-11-01', 17, 49, 'The quest for the white whale.', '2023-11-02 09:37:58', '2023-11-02 09:37:58'),
 (618, 'L\'Odyssée', 47, '2023-11-01', 24, 50, 'The journey of Ulysses to return home.', '2023-11-02 09:38:08', '2023-11-02 09:38:08'),
 (619, 'Les Trois Mousquetaires', 48, '2023-11-01', 8, 50, 'The adventures of Alexandre Dumas\' musketeers.', '2023-11-02 09:38:08', '2023-11-02 09:38:08'),
-(620, 'Don Quichotte', 49, '2023-11-01', 33, 2, 'The adventures of the knight Don Quixote.', '2023-11-02 09:38:08', '2023-11-02 09:38:08'),
+(620, 'Don Quichotte', 49, '2023-11-01', 33, -1, 'The adventures of the knight Don Quixote.', '2023-11-02 09:38:08', '2023-11-02 09:38:08'),
 (621, 'Le Comte de Monte-Cristo', 48, '2023-11-01', 37, 10, 'Edmond Dantès\' quest for revenge.', '2023-11-02 09:38:08', '2023-11-02 09:38:08'),
 (622, 'Le Château', 51, '2023-11-01', 20, 48, 'K.\'s struggle against bureaucracy.', '2023-11-02 09:38:08', '2023-11-02 09:38:08'),
 (623, 'Voyage au bout de la nuit', 52, '2023-11-01', 28, 4, 'Bardamu\'s wanderings around the world.', '2023-11-02 09:38:08', '2023-11-02 09:38:08'),
@@ -201,7 +230,7 @@ INSERT INTO `books` (`book_id`, `bookName`, `auth_id`, `bookDate`, `bookPrice`, 
 (683, 'L Énigme du Miroir', 28, '2021-11-01', 9, 34, 'Un mystère captivant dans un univers parallèle.', '2023-11-02 08:32:33', '2023-11-02 08:32:33'),
 (685, 'Le Meilleur des Mondes', 29, '2021-11-01', 31, 34, 'Une vision futuriste de la société et de la technologie.', '2023-11-02 08:32:33', '2023-11-02 08:32:33'),
 (687, 'Terre des Hommes', 30, '2021-11-01', 20, 20, 'Les aventures de l aviateur Antoine de Saint-Exupéry.', '2023-11-02 08:32:33', '2023-11-02 08:32:33'),
-(689, 'Emma', 31, '2021-11-01', 19, 47, 'Les aventures d une jeune femme au caractère bien trempé.', '2023-11-02 08:32:33', '2023-11-02 08:32:33'),
+(689, 'Emma', 31, '2021-11-01', 19, 46, 'Les aventures d une jeune femme au caractère bien trempé.', '2023-11-02 08:32:33', '2023-11-02 08:32:33'),
 (691, 'Anna Karénine', 32, '2021-11-01', 38, 33, 'L amour tragique d une femme de la haute société.', '2023-11-02 08:32:33', '2023-11-02 08:32:33'),
 (693, 'Sur la Route', 33, '2021-11-01', 11, 16, 'Un voyage à travers l Amérique des années 1950.', '2023-11-02 08:32:33', '2023-11-02 08:32:33'),
 (694, 'L Alchimiste', 34, '2021-11-01', 33, 35, 'La quête spirituelle d un jeune berger.', '2023-11-02 08:32:33', '2023-11-02 08:32:33'),
@@ -330,7 +359,20 @@ INSERT INTO `books_categorys` (`book_id`, `category_id`, `createdAt`, `updatedAt
 (694, 11, '2023-11-02 10:15:28', '2023-11-02 10:15:28'),
 (695, 11, '2023-11-02 10:15:28', '2023-11-02 10:15:28'),
 (699, 11, '2023-11-02 10:15:28', '2023-11-02 10:15:28'),
-(700, 8, '2023-11-02 23:39:09', '2023-11-02 23:39:09');
+(700, 8, '2023-11-02 23:39:09', '2023-11-02 23:39:09'),
+(598, 5, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(598, 7, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(647, 11, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(648, 4, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(649, 7, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(650, 10, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(651, 2, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(652, 3, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(653, 4, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(654, 6, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(656, 8, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(657, 9, '2023-11-07 09:53:56', '2023-11-07 09:53:56'),
+(658, 1, '2023-11-07 09:53:56', '2023-11-07 09:53:56');
 
 -- --------------------------------------------------------
 
@@ -370,10 +412,12 @@ INSERT INTO `categorys` (`category_id`, `categoryName`, `createdAt`, `updatedAt`
 
 CREATE TABLE `customer` (
   `customer_id` int(11) NOT NULL,
-  `customerFirstName` varchar(100) DEFAULT NULL,
-  `customerLastName` varchar(100) DEFAULT NULL,
-  `customerEmail` varchar(100) DEFAULT NULL,
-  `customerPhone` varchar(100) DEFAULT NULL,
+  `customerFirstName` varchar(100) NOT NULL,
+  `customerLastName` varchar(100) NOT NULL,
+  `customerBirthday` date NOT NULL,
+  `customerEmail` varchar(100) NOT NULL,
+  `customerPassword` varchar(100) NOT NULL,
+  `customerPhone` varchar(100) NOT NULL,
   `customerAdress` varchar(100) NOT NULL,
   `customerCity` varchar(100) NOT NULL,
   `customerZip` varchar(5) NOT NULL,
@@ -381,26 +425,6 @@ CREATE TABLE `customer` (
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `customer`
---
-
-INSERT INTO `customer` (`customer_id`, `customerFirstName`, `customerLastName`, `customerEmail`, `customerPhone`, `customerAdress`, `customerCity`, `customerZip`, `customerContry`, `createdAt`, `updatedAt`) VALUES
-(1, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:33:58', '2023-11-03 10:33:58'),
-(2, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:37:35', '2023-11-03 10:37:35'),
-(3, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:38:29', '2023-11-03 10:38:29'),
-(4, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:39:13', '2023-11-03 10:39:13'),
-(5, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:39:58', '2023-11-03 10:39:58'),
-(6, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:41:21', '2023-11-03 10:41:21'),
-(7, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:42:07', '2023-11-03 10:42:07'),
-(8, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:42:42', '2023-11-03 10:42:42'),
-(9, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:44:57', '2023-11-03 10:44:57'),
-(10, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:46:00', '2023-11-03 10:46:00'),
-(11, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:46:33', '2023-11-03 10:46:33'),
-(12, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:48:40', '2023-11-03 10:48:40'),
-(13, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:51:03', '2023-11-03 10:51:03'),
-(14, 'test', 'test', '0615835301', 'test', 'test@test.test', 'test', 'test', '52000', '2023-11-03 10:52:32', '2023-11-03 10:52:32');
 
 -- --------------------------------------------------------
 
@@ -418,24 +442,6 @@ CREATE TABLE `orders` (
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `orders`
---
-
-INSERT INTO `orders` (`orders_id`, `ordersNumber`, `customer_id`, `ordersStatus`, `totalHT`, `totalTTC`, `createdAt`, `updatedAt`) VALUES
-(1, '130098', 3, 'pending', 0, 45.12, '2023-11-03 10:38:29', '2023-11-03 10:38:29'),
-(2, '130098', 4, 'pending', 0, 45.12, '2023-11-03 10:39:13', '2023-11-03 10:39:13'),
-(3, '130098', 5, 'pending', 0, 45.12, '2023-11-03 10:39:58', '2023-11-03 10:39:58'),
-(4, '130098', 6, 'pending', 0, 45.12, '2023-11-03 10:41:21', '2023-11-03 10:41:21'),
-(5, '130098', 7, 'pending', 0, 45.12, '2023-11-03 10:42:07', '2023-11-03 10:42:07'),
-(6, '130098', 8, 'pending', 0, 45.12, '2023-11-03 10:42:42', '2023-11-03 10:42:42'),
-(7, '130098', 9, 'pending', 0, 45.12, '2023-11-03 10:44:57', '2023-11-03 10:44:57'),
-(8, '130098', 10, 'pending', 0, 45.12, '2023-11-03 10:46:00', '2023-11-03 10:46:00'),
-(9, '130098', 11, 'pending', 0, 45.12, '2023-11-03 10:46:33', '2023-11-03 10:46:33'),
-(10, '130098', 12, 'pending', 0, 45.12, '2023-11-03 10:48:40', '2023-11-03 10:48:40'),
-(11, '130098', 13, 'pending', 0, 45.12, '2023-11-03 10:51:03', '2023-11-03 10:51:03'),
-(12, '130098', 14, 'pending', 0, 45.12, '2023-11-03 10:52:32', '2023-11-03 10:52:32');
 
 -- --------------------------------------------------------
 
@@ -455,26 +461,14 @@ CREATE TABLE `orders_books` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `orders_books`
---
-
-INSERT INTO `orders_books` (`orders_books_id`, `orders_id`, `book_id`, `quantity`, `totalHT`, `totalTTC`, `createdAt`, `updatedAt`) VALUES
-(1, 9, 7, 0, 0, 0, '2023-11-03 10:46:33', '2023-11-03 10:46:33'),
-(2, 1, 689, 0, 0, 0, '2023-11-03 10:46:33', '2023-11-03 10:46:33'),
-(3, 2, 599, 0, 0, 0, '2023-11-03 10:46:33', '2023-11-03 10:46:33'),
-(4, 10, 7, 0, 0, 0, '2023-11-03 10:48:40', '2023-11-03 10:48:40'),
-(5, 4, 689, 0, 0, 0, '2023-11-03 10:48:40', '2023-11-03 10:48:40'),
-(6, 5, 599, 0, 0, 0, '2023-11-03 10:48:40', '2023-11-03 10:48:40'),
-(7, 11, 7, 0, 0, 0, '2023-11-03 10:51:03', '2023-11-03 10:51:03'),
-(8, 7, 689, 0, 0, 0, '2023-11-03 10:51:03', '2023-11-03 10:51:03'),
-(9, 8, 599, 0, 0, 0, '2023-11-03 10:51:03', '2023-11-03 10:51:03'),
-(10, 12, 7, 0, 0, 0, '2023-11-03 10:52:32', '2023-11-03 10:52:32'),
-(11, 10, 689, 0, 0, 0, '2023-11-03 10:52:32', '2023-11-03 10:52:32'),
-(12, 11, 599, 0, 0, 0, '2023-11-03 10:52:32', '2023-11-03 10:52:32');
-
---
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`admin_id`);
 
 --
 -- Index pour la table `authors`
@@ -528,6 +522,12 @@ ALTER TABLE `orders_books`
 --
 
 --
+-- AUTO_INCREMENT pour la table `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT pour la table `authors`
 --
 ALTER TABLE `authors`
@@ -549,19 +549,19 @@ ALTER TABLE `categorys`
 -- AUTO_INCREMENT pour la table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `orders_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `orders_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT pour la table `orders_books`
 --
 ALTER TABLE `orders_books`
-  MODIFY `orders_books_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `orders_books_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- Contraintes pour les tables déchargées
@@ -590,8 +590,8 @@ ALTER TABLE `orders`
 -- Contraintes pour la table `orders_books`
 --
 ALTER TABLE `orders_books`
-  ADD CONSTRAINT `orders_books_FK` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`),
-  ADD CONSTRAINT `orders_books_FK_1` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`orders_id`);
+  ADD CONSTRAINT `orders_books_FK` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_books_FK_1` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`orders_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

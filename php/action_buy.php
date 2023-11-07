@@ -1,48 +1,25 @@
 <?php
-session_start();
 require('config.php');
-require('request.php');
 $basket = $_SESSION['basket'];
-print_r($basket);
-if(isset($_POST['buy_orders'])){
-    $dataC =  $db->prepare("INSERT INTO customer (customerFirstName, customerLastName, customerEmail, customerAdress, customerCity, customerZip, customerContry, customerPhone) VALUES (:customerFirstName, :customerLastName, :customerPhone, :customerEmail, :customerAdress, :customerCity, :customerZip, :customerContry)");
-    $dataC->execute(array(
-        ':customerFirstName' => $_POST['customerFirstName'],
-        ':customerLastName' => $_POST['customerLastName'],
-        ':customerEmail' => $_POST['customerEmail'],
-        ':customerAdress' => $_POST['customerAdress'],
-        ':customerCity' => $_POST['customerCity'],
-        ':customerZip' => $_POST['customerZip'],
-        ':customerContry'   => $_POST['customerContry'],
-        ':customerPhone' => $_POST['customerPhone'],
-    ));
-    $orderTotalHT = 0;
-    $orderTotalTTC = 0;
-    foreach($basket['products'] as $product){
-        $orderTotalHT += $product['priceHT'];
-        $orderTotalTTC += $product['priceTTC'];
-    }
+print_r($_SESSION);
+if(isset($_POST['confirm'])){
     $dataO = $db->prepare("INSERT INTO orders (ordersNumber, customer_id, totalHT, totalTTC, ordersStatus) VALUES (:ordersNumber, :customer_id, :totalHT, :totalTTC, :ordersStatus)");   
     $dataO->execute(array(
         ':ordersNumber' => $basket['ordersNumber'],
-        ':customer_id' => $db->lastInsertId(),
-        ':totalHT' => $orderTotalHT,
-        ':totalTTC' => $orderTotalTTC,
+        ':customer_id' => $_SESSION['customerId'],
+        ':totalHT' => $basket['totalHT'],
+        ':totalTTC' => $basket['totalTTC'],
         ':ordersStatus' => 'pending'
     ));
+    $orderId = $db->lastInsertId();
     $dataB = $db->prepare("INSERT INTO orders_books (book_id, orders_id, quantity, totalHT, totalTTC) VALUES (:book_id, :orders_id, :quantity, :totalHT, :totalTTC)");
     foreach($basket['products'] as $product){
-        if (empty($product['priceHT']) || empty($product['priceTTC']) || empty($product['bookQuantity'])){
-            $product['priceHT'] = 0;
-            $product['priceTTC'] = 0;
-            $product['bookQuantity'] = 0;
-        }
         $dataB->execute(array(
             ':book_id' => $product['book_id'],
-            ':orders_id' => $db->lastInsertId(),
+            ':orders_id' => $orderId,
             ':quantity' => $product['bookQuantity'],
-            ':totalHT' => $product['priceHT'],
-            ':totalTTC' => $product['priceTTC']
+            ':totalHT' => ($product['priceTTC'] *0.8)*$product['bookQuantity'],
+            ':totalTTC' => ($product['priceTTC'])*$product['bookQuantity']
         ));
     }
     $bookQuantityActuel = 0;
@@ -58,7 +35,6 @@ if(isset($_POST['buy_orders'])){
         $dataU->execute(array(
             ':book_id' => $product['book_id']
         ));
-        
     }
     $to = $_POST['customerEmail'];
     $subject = 'Order confirmation';

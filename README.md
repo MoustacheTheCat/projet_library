@@ -59,7 +59,7 @@ step 2 -> Create php/config.php  and php/request.php
 
 step 3 -> Create index.php , layout/header.php , layout/footer.php
 
-step 4 -> create pages/detais.php 
+step 4 -> create pages/detail_book.php 
 
 step 5 -> create pages/add.php and php/action_add_book.php
 
