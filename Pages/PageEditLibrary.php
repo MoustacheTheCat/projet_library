@@ -33,7 +33,7 @@ include('../Layout/LayoutHeader.php');
                     </td> -->
                     <td><?php echo $listBook['bookName']; ?></td>
                     <td><a href="PageEditBook.php?id=<?php echo $listBook['books_id']; ?>">Edit </a></td>
-                    <td><a href="ActionDeleteBook.php?id=<?php echo $listBook['books_id']; ?>">Delete </a></td>
+                    <td><a href="../Action/ActionDeleteBook.php?id=<?php echo $listBook['books_id']; ?>">Delete </a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

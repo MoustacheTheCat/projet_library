@@ -4,8 +4,14 @@ $listBooks = getAllBookAndAuthorName();
 $datas = getAllBooksDetailWithCategoryAndAuthorName();
 $books = getAllData('books');
 $tabFilterLetters = array();
+unset($_SESSION['filterLetter']);
+unset($_SESSION['filterAuthor']);
+unset($_SESSION['filterGenre']);
+unset($_SESSION['filterYear']);
+unset($_SESSION['filterText']);
+unset($_SESSION['message']);
 if(isset($_POST['filter'])){
-    if(isset($_POST['filterLetter']) || isset($_POST['filterAuthor']) || isset($_POST['filterGenre']) || isset($_POST['filterYear']) || isset($_POST['filterText'])){
+    if((isset($_POST['filterLetter']) && $_POST['filterLetter'] != "letter")||( isset($_POST['filterAuthor']) && $_POST['filterAuthor'] != "author")||( isset($_POST['filterGenre']) && $_POST['filterGenre'] != "genre")||( isset($_POST['filterYear']) && $_POST['filterYear'] != "year")||( isset($_POST['filterText']) && $_POST['filterText'] != "")){
         if($_POST['filterLetter'] != 'letter'){
             unset($_SESSION['result']);
             $letter = $_POST['filterLetter'];
@@ -60,7 +66,10 @@ if(isset($_POST['filter'])){
             responseFilter($tabFilterTexts, 'filterText', 5);
         } 
     }
-    $_SESSION['message']= "Please select a filter";
-    header("Location: ../index.php");
+    else{
+        $_SESSION['message'] = "Veuillez choisir un filtre";
+        unset($_SESSION['result']);
+        header('Location: ../index.php');
+    }
 }
 ?>

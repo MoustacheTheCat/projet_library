@@ -3,6 +3,7 @@ require('../Action/ActionRequire.php');
 $pageTitle = 'Basket';
 include('../Layout/LayoutHeader.php');
 ?>
+
 <?php if (!empty($_SESSION['basket'])): ?>
     <?php $tabTotal = array(); ?>
     <?php $products = $_SESSION['basket']['products']; ?>

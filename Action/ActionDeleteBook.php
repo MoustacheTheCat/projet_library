@@ -3,6 +3,7 @@ require('ActionRequire.php');
 if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'){
     $count = 0;
     $id_auth = 0;
+    $db = connect_bd();
     if (isset($_GET['id'])) {
         $books = getAllData('books');
         foreach ($books as $book) {

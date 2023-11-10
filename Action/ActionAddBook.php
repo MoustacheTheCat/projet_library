@@ -27,14 +27,14 @@ if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'){
             if(verifBook ($books, $_POST['bookName'],$authors_id, $_POST['bookDate'])){
                 $_SESSION['error'] = 'This book already exists';
             }else {
-                $dataB = $db->prepare("INSERT INTO books (bookName, bookDate, authors_id, bookDescription, bookQuantity, bookPriceHT, bookPriceTTC) VALUES (:bookName, :bookDate, :authors_id, :bookDescription, :bookQuantity, :bookPrice, :bookPriceTTC)");
+                $dataB = $db->prepare("INSERT INTO books (bookName, bookDate, authors_id, bookDescription, bookQuantity, bookPriceHT, bookPriceTTC) VALUES (:bookName, :bookDate, :authors_id, :bookDescription, :bookQuantity, :bookPriceHT, :bookPriceTTC)");
                 $dataB->bindValue(':bookName', $_POST['bookName'], PDO::PARAM_STR);
                 $dataB->bindValue(':bookDate', $_POST['bookDate'], PDO::PARAM_STR);
                 $dataB->bindValue(':authors_id', $authors_id, PDO::PARAM_INT);
                 $dataB->bindValue(':bookDescription', $_POST['bookDescription'], PDO::PARAM_STR);
                 $dataB->bindValue(':bookQuantity', $_POST['bookQuantity'], PDO::PARAM_INT);
                 $dataB->bindValue(':bookPriceHT', $_POST['bookPriceHT']);
-                $dataB->bindValue(':bookPriceTTC', $_POST['bookPriceHT']);
+                $dataB->bindValue(':bookPriceTTC', $_POST['bookPriceTTC']);
                 $dataB->execute();
                 $books_id = $db->lastInsertId();
             }
@@ -44,6 +44,11 @@ if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'){
                 $dataC->bindValue(':categoryName', $_POST['addCategoryName'], PDO::PARAM_STR);
                 $dataC->execute();
                 $id_cat = $db->lastInsertId();
+                $dataD = $db->prepare("INSERT INTO books_categorys (books_id, categorys_id) VALUES (:books_id, :categorys_id)");
+                $dataD->bindValue(':books_id', $books_id, PDO::PARAM_INT);
+                $dataD->bindValue(':categorys_id', $id_cat, PDO::PARAM_INT);
+                $dataD->execute();
+                
             }
             if (!empty($arrayCats)){
                 foreach($arrayCats as $arrayCat){

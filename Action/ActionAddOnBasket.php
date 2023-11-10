@@ -4,11 +4,16 @@ if(isset($_POST['buy']) && isset($_GET['id'])){
     
     $bookId = $_GET['id'];
     $bookQuantity = $_POST['bookQuantity'];
-    $tabPrice = $_SESSION['bookPrice'];
+    
     print_r($tabPrice);
     if($bookQuantity == ""){
         $bookQuantity = 1;
     }
+    if(!isset($_SESSION['basket']['products']) || empty($_SESSION['basket']['products']) || !isset($_SESSION['bookPrice']) || empty($_SESSION['bookPrice'])){
+        $_SESSION['basket']['products'] = array();
+        $_SESSION['bookPrice'] = array();
+    }
+    $tabPrice = $_SESSION['bookPrice'];
     foreach($_SESSION['basket']['products'] as $product){
         if($product['books_id'] == $bookId){
             $bookQuantity += $product['bookQuantity'];

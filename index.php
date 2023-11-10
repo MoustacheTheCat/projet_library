@@ -4,47 +4,18 @@ $pageTitle = 'Library';
 $listBooks = getAllBookAndAuthorName();
 $categorys = getAllData('categorys');
 $books = getAllData('books');
-$dates = array();
-print_r($_SESSION);
-foreach($books as $book){
-    if(!in_array(substr($book['bookDate'],0,4), $dates)){
-        $dates[] = substr($book['bookDate'],0,4);
-    }
-}
-sort($dates);
 $auths = getAllData('authors');
-$verifL = "";
-$verifN =""; 
-include('Layout/LayoutHeader.php');
-function authDet($col1, $col2, $auths){
-    foreach($auths as $auth){
-        if ($auth['authFirstName'] == $col1 && $auth['authLastName'] == $col2){
-            echo "<td><a href='Pages/PageDetailAuth.php?id=".$auth['authors_id']."'>".$col1."</a></td>";
-            echo "<td><a href='Pages/PageDetailAuth.php?id=".$auth['authors_id']."'>".$col2."</a></td>";
-        }
-        elseif($auth['authFirstName'] == $col1 && $auth['authLastName'] == ""){ 
-            echo "<td><a href='Pages/PageDetailAuth.php?id=".$auth['authors_id']."'>".$col1."</a></td>";
-            echo "<td></td>";
-        }
-    }
-};
-$tabLetters = array();
-foreach($books as $book){
-    if($verifL !== substr($book['bookName'],0,1) && array_search(substr($book['bookName'],0,1), $tabLetters) === false) {
-        $tabLetters[]= substr($book['bookName'],0,1);
-        $verifL = substr($book['bookName'],0,1);
-    } 
+$dates =substrDate();
+$tabLetters = createSelectFilter('let');
+$tabNameAuths = createSelectFilter('auth');
+if(!empty($_GET['filter'])){
+    $filter = $_GET['filter'];
 }
-sort($tabLetters); 
-$tabNameAuths = array();
-foreach($auths as $auth){
-    if($verifN != $auth['authFirstName'] && array_search($auth['authFirstName'], $tabLetters) === false){
-        $tabNameAuths[]= $auth['authFirstName']." ".$auth['authLastName'];
-        $verifN = $auth['authFirstName'];
-    }
+else{
+    $filter = "";
 }
-sort($tabNameAuths);
 
+include('Layout/LayoutHeader.php');
 ?>
 <?php if (!empty($_SESSION['response'])): ?>
     <div class="response">
@@ -114,12 +85,7 @@ sort($tabNameAuths);
                 <tbody>
                 <?php if(empty($_GET['filter'])) :?>
                 <div class="book-list">
-                    <?php foreach($listBooks as $listBook): ?>
-                        <tr>
-                            <td><a href="Pages/PageDetailBook.php?id=<?php echo $listBook['books_id']; ?>"><?php echo $listBook['bookName']; ?></a></td>
-                            <?php authDet($listBook['authFirstName'], $listBook['authLastName'], $auths); ?>
-                        </tr>
-                    <?php endforeach; ?>
+                    <?php printListBooks($filter, 0); ?>
                 <?php else : ?>
                     <?php if (isset($_GET['filter'])):?>
                         <?php if ($_GET['filter'] == 1): ?>

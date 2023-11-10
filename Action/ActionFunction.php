@@ -23,10 +23,10 @@ function responseMessage(){
     }
 }
 
-function responseFilter($tab, $filterName, $filter){
+function responseFilter($tab, $filterName){
     if(!empty($tab)){   
         $_SESSION[$filterName] = $tab;
-        header("Location: ../index.php?filter=".$filter);
+        header("Location: ../index.php?filter=".$filterName);
         exit;
     }
     else {
@@ -136,4 +136,108 @@ function verifBook($books, $bookName, $author, $bookDate){
         }
         return false;
     } 
+}
+
+// create link auth details
+function authDet($col1, $col2, $auths){
+    foreach($auths as $auth){
+        if ($auth['authFirstName'] == $col1 && $auth['authLastName'] == $col2){
+            echo "<td><a href='Pages/PageDetailAuth.php?id=".$auth['authors_id']."'>".$col1."</a></td>";
+            echo "<td><a href='Pages/PageDetailAuth.php?id=".$auth['authors_id']."'>".$col2."</a></td>";
+        }
+        elseif($auth['authFirstName'] == $col1 && $auth['authLastName'] == ""){ 
+            echo "<td><a href='Pages/PageDetailAuth.php?id=".$auth['authors_id']."'>".$col1."</a></td>";
+            echo "<td></td>";
+        }
+    }
+};
+
+// function substr date 
+function substrDate(){
+    $books = getAllData('books');
+    $dates = array();
+    foreach($books as $book){
+        if(!in_array(substr($book['bookDate'],0,4), $dates)){
+            $dates[] = substr($book['bookDate'],0,4);
+        }
+    }
+    sort($dates);
+    return $dates;
+}
+
+// function create select filter
+
+function createSelectFilter($selectName){
+    $tabResponse = array();
+    $verif = "";
+    if($selectName == 'let'){
+        $books = getAllData('books');
+        foreach($books as $book){
+            if($verif !== substr($book['bookName'],0,1) && array_search(substr($book['bookName'],0,1), $tabResponse) === false) {
+                $tabResponse[]= substr($book['bookName'],0,1);
+                $verif = substr($book['bookName'],0,1);
+            } 
+        }
+        
+    }
+    elseif($selectName == 'auth'){
+        $auths = getAllData('authors');
+        foreach($auths as $auth){
+            if($verif != $auth['authFirstName'] && array_search($auth['authFirstName'], $tabResponse) === false){
+                $tabResponse[]= $auth['authFirstName']." ".$auth['authLastName'];
+                $verif = $auth['authFirstName'];
+            }
+        }
+        
+    }
+    sort($tabResponse);
+    return $tabResponse;
+    
+}
+
+
+// function printListBooks 
+
+function printListBooks($filter, $filterNumber){
+    $listBooks = getAllBookAndAuthorName();
+    $auths = getAllData('authors');
+    if(empty($filter) || $filterNumber == 0){
+        foreach($listBooks as $listBook){ 
+            echo "<tr>";
+            echo "<td><a href='Pages/PageDetailBook.php?id=".$listBook['books_id']."'>".$listBook['bookName']."</a></td>";
+            echo    authDet($listBook['authFirstName'], $listBook['authLastName'], $auths);
+            echo "</tr>";
+        }
+    }
+    else{
+        $session = $_SESSION;
+        if(isset($filter) && !empty($session[$filterName])){
+            if($filterNumber == 1){
+                $filterName = 'filterLetter';
+            }
+            elseif($filterNumber == 2){
+                $filterName = 'filterAuthor';
+            }
+            elseif($filterNumber == 3){
+                $filterName = 'filterGenre';
+            }
+            elseif($filterNumber == 4){
+                $filterName = 'filterYear';
+            }
+            elseif($filterNumber == 5){
+                $filterName = 'filterText';
+            }
+            foreach($session[$filterName] as $listBk){ 
+                foreach($listBooks as $listBook) {
+                    if ($listBk == $listBook['bookName']) { 
+                        echo "<tr>";
+                            echo "<td><a href='Pages/PageDetailBook.php?id=".$listBook['books_id']."'>".$listBook['bookName']."</a></td>";
+                            echo    authDet($listBook['authFirstName'], $listBook['authLastName'], $auths);
+                        echo "</tr>";
+                    }
+                }
+            }
+            
+        }
+    }
 }

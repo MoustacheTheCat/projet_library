@@ -10,6 +10,11 @@ if($_GET['id']){
         }
     }
     $_SESSION['nb_books_in_basket'] -= 1;
+    if($_SESSION['nb_books_in_basket'] == 0){
+        unset($_SESSION['basket']);
+        unset($_SESSION['nb_books_in_basket']);
+        unset($_SESSION['bookPrice']);
+    }
     $_SESSION['response'] = "Your book has been deleted from your basket";
     header('Location: ../index.php');
 }
