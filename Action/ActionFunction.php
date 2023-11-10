@@ -23,10 +23,10 @@ function responseMessage(){
     }
 }
 
-function responseFilter($tab, $filterName){
+function responseFilter($tab, $filterName, $filter){
     if(!empty($tab)){   
         $_SESSION[$filterName] = $tab;
-        header("Location: ../index.php?filter=".$filterName);
+        header("Location: ../index.php?filter=".$filter);
         exit;
     }
     else {
@@ -198,10 +198,25 @@ function createSelectFilter($selectName){
 
 // function printListBooks 
 
-function printListBooks($filter, $filterNumber){
+
+function printAfterFilter($filterN, $listBooks, $auths){
+    foreach($filterN as $listBk){ 
+        foreach($listBooks as $listBook) {
+            if ($listBk == $listBook['bookName']) { 
+                echo "<tr>";
+                    echo "<td><a href='Pages/PageDetailBook.php?id=".$listBook['books_id']."'>".$listBook['bookName']."</a></td>";
+                    echo    authDet($listBook['authFirstName'], $listBook['authLastName'], $auths);
+                echo "</tr>";
+            }
+        }
+    }
+}
+
+function printListBooks($filter){
     $listBooks = getAllBookAndAuthorName();
     $auths = getAllData('authors');
-    if(empty($filter) || $filterNumber == 0){
+    $session = $_SESSION;
+    if(empty($filter) || $filter == ""){
         foreach($listBooks as $listBook){ 
             echo "<tr>";
             echo "<td><a href='Pages/PageDetailBook.php?id=".$listBook['books_id']."'>".$listBook['bookName']."</a></td>";
@@ -210,33 +225,33 @@ function printListBooks($filter, $filterNumber){
         }
     }
     else{
-        $session = $_SESSION;
-        if(isset($filter) && !empty($session[$filterName])){
-            if($filterNumber == 1){
+        if(isset($filter) && $filter > 0){
+            if($filter == 1){
                 $filterName = 'filterLetter';
+                $filterN = $_SESSION[$filterName];
+                printAfterFilter($filterN, $listBooks, $auths);
             }
-            elseif($filterNumber == 2){
+            elseif($filter == 2){
                 $filterName = 'filterAuthor';
+                $filterN = $_SESSION[$filterName];
+                printAfterFilter($filterN, $listBooks, $auths);
             }
-            elseif($filterNumber == 3){
+            elseif($filter == 3){
                 $filterName = 'filterGenre';
+                $filterN = $_SESSION[$filterName];
+                printAfterFilter($filterN, $listBooks, $auths);
             }
-            elseif($filterNumber == 4){
+            elseif($filter == 4){
                 $filterName = 'filterYear';
+                $filterN = $_SESSION[$filterName];
+                printAfterFilter($filterN, $listBooks, $auths);
             }
-            elseif($filterNumber == 5){
+            elseif($filter == 5){
                 $filterName = 'filterText';
+                $filterN = $_SESSION[$filterName];
+                printAfterFilter($filterN, $listBooks, $auths);
             }
-            foreach($session[$filterName] as $listBk){ 
-                foreach($listBooks as $listBook) {
-                    if ($listBk == $listBook['bookName']) { 
-                        echo "<tr>";
-                            echo "<td><a href='Pages/PageDetailBook.php?id=".$listBook['books_id']."'>".$listBook['bookName']."</a></td>";
-                            echo    authDet($listBook['authFirstName'], $listBook['authLastName'], $auths);
-                        echo "</tr>";
-                    }
-                }
-            }
+            
             
         }
     }
